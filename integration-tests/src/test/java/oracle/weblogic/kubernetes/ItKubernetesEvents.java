@@ -19,8 +19,10 @@ import io.kubernetes.client.openapi.models.CoreV1Event;
 import io.kubernetes.client.openapi.models.V1Container;
 import io.kubernetes.client.openapi.models.V1EnvVar;
 import io.kubernetes.client.openapi.models.V1LocalObjectReference;
+import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1PersistentVolumeClaimVolumeSource;
+import io.kubernetes.client.openapi.models.V1RoleBindingList;
 import io.kubernetes.client.openapi.models.V1SecretReference;
 import io.kubernetes.client.openapi.models.V1Volume;
 import io.kubernetes.client.openapi.models.V1VolumeMount;
@@ -35,6 +37,7 @@ import oracle.weblogic.domain.ServerPod;
 import oracle.weblogic.kubernetes.actions.impl.OperatorParams;
 import oracle.weblogic.kubernetes.actions.impl.primitive.Command;
 import oracle.weblogic.kubernetes.actions.impl.primitive.CommandParams;
+import oracle.weblogic.kubernetes.actions.impl.primitive.Kubernetes;
 import oracle.weblogic.kubernetes.annotations.IntegrationTest;
 import oracle.weblogic.kubernetes.annotations.Namespaces;
 import oracle.weblogic.kubernetes.logging.LoggingFacade;
@@ -780,7 +783,6 @@ class ItKubernetesEvents {
   void testK8SEventsStartStopWatchingNSWithLabelSelector(boolean enableClusterRoleBinding) {
     logger.info("testing testK8SEventsStartStopWatchingNSWithLabelSelector with enableClusterRoleBinding={0}",
         enableClusterRoleBinding);
-    OffsetDateTime timestamp = now();
 
     logger.info("Labeling namespace {0} to enable it in the operator watch list", domainNamespace3);
     // label domainNamespace3
@@ -789,12 +791,17 @@ class ItKubernetesEvents {
             .command("kubectl label ns " + domainNamespace3 + " weblogic-operator=enabled --overwrite"))
         .execute();
 
+    OffsetDateTime timestamp = now();
+
     // Helm upgrade parameters
     opParams = opParams
         .domainNamespaceSelectionStrategy("LabelSelector")
         .domainNamespaceLabelSelector("weblogic-operator=enabled")
         .enableClusterRoleBinding(enableClusterRoleBinding);
     upgradeAndVerifyOperator(opNamespace, opParams);
+
+    logger.info("print role bindings in namespace {0}", domainNamespace3);
+    printNamespacedRoleBindings(domainNamespace3);
 
     logger.info("verify NamespaceWatchingStarted event is logged in namespace {0}", domainNamespace3);
     checkEvent(opNamespace, domainNamespace3, null, NAMESPACE_WATCHING_STARTED, "Normal", timestamp);
@@ -818,6 +825,17 @@ class ItKubernetesEvents {
     logger.info("verify NamespaceWatchingStopped event is logged in namespace {0}", domainNamespace3);
     checkNamespaceWatchingStoppedEvent(opNamespace, domainNamespace3, null, "Normal", timestamp,
         enableClusterRoleBinding);
+  }
+
+  private void printNamespacedRoleBindings(String ns) {
+    try {
+      V1RoleBindingList rbList = Kubernetes.listNamespacedRoleBinding(ns);
+      logger.info("Role Bindings in namespace {0} are {1}", ns, rbList);
+      V1Namespace nsObj = Kubernetes.getNamespaceAsObject(ns);
+      logger.info("Namespace {0}:{1}", ns, nsObj);
+    } catch (Exception e) {
+      logger.info("Failed to get rolebinding list, {0}", e);
+    }
   }
 
   /**

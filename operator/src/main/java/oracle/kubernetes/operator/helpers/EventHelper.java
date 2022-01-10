@@ -71,16 +71,6 @@ public class EventHelper {
   /**
    * Factory for {@link Step} that asynchronously create an event.
    *
-   * @param eventItem event item
-   * @return Step for creating an event
-   */
-  public static Step createEventStep(EventItem eventItem) {
-    return createEventStep(new EventData(eventItem));
-  }
-
-  /**
-   * Factory for {@link Step} that asynchronously create an event.
-   *
    * @param eventData event data
    * @return Step for creating an event
    */
@@ -91,24 +81,13 @@ public class EventHelper {
   /**
    * Factory for {@link Step} that asynchronously create an event.
    *
-   * @param domainNamespaces DomainSpaces instance
+   * @param domainNamespaces DomainNamespaces instance
    * @param eventData event item
    * @param next next step
    * @return Step for creating an event
    */
   public static Step createEventStep(DomainNamespaces domainNamespaces, EventData eventData, Step next) {
     return new CreateEventStep(domainNamespaces, eventData, next);
-  }
-
-  /**
-   * Factory for {@link Step} that asynchronously create an event.
-   *
-   * @param eventData event item
-   * @param next next step
-   * @return Step for creating an event
-   */
-  public static Step createEventStep(EventData eventData, Step next) {
-    return new CreateEventStep(null, eventData, next);
   }
 
   public static class CreateEventStep extends Step {
@@ -141,7 +120,8 @@ public class EventHelper {
     }
 
     private Step createCreateEventCall(CoreV1Event event) {
-      LOGGER.fine(MessageKeys.CREATING_EVENT, eventData.eventItem);
+      //XXX change it back to fine after debugging
+      LOGGER.info(MessageKeys.CREATING_EVENT, eventData.eventItem);
       event.firstTimestamp(event.getLastTimestamp());
       return new CallBuilder()
           .createEventAsync(
@@ -151,7 +131,8 @@ public class EventHelper {
     }
 
     private Step createReplaceEventCall(CoreV1Event event, @NotNull CoreV1Event existingEvent) {
-      LOGGER.fine(MessageKeys.REPLACING_EVENT, eventData.eventItem);
+      //XXX change it back to fine after debugging
+      LOGGER.info(MessageKeys.REPLACING_EVENT, eventData.eventItem);
       existingEvent.count(Optional.ofNullable(existingEvent.getCount()).map(c -> c + 1).orElse(1));
       existingEvent.lastTimestamp(event.getLastTimestamp());
       return new CallBuilder()
@@ -183,12 +164,12 @@ public class EventHelper {
 
       @Override
       public NextAction onFailure(Packet packet, CallResponse<CoreV1Event> callResponse) {
+        clearNamespaceStartingFlag();
         if (hasLoggedForbiddenNSWatchStoppedEvent(this, callResponse)) {
           return doNext(packet);
         }
 
         if (NAMESPACE_WATCHING_STARTED == eventData.eventItem) {
-          clearNamespaceStartingFlag();
           if (isForbidden(callResponse)) {
             LOGGER.warning(MessageKeys.CREATING_EVENT_FORBIDDEN,
                 eventData.eventItem.getReason(), eventData.getNamespace());

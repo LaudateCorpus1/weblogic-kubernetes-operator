@@ -523,6 +523,7 @@ public class Main {
   }
 
   private NamespaceWatcher createNamespaceWatcher(String initialResourceVersion) {
+    LOGGER.info("DEBUG createNamespaceWatcher LabelSelector {0}", Namespaces.getLabelSelectors());
     return NamespaceWatcher.create(
         threadFactory,
         initialResourceVersion,
@@ -538,11 +539,15 @@ public class Main {
       return;
     }
 
+    LOGGER.info("DEBUG dispatchNamespaceWatch for NS {0} type {1}", ns, item.type);
+
     switch (item.type) {
       case "ADDED":
         if (!Namespaces.isDomainNamespace(ns)) {
           return;
         }
+
+        LOGGER.info("DEBUG dispatchNamespaceWatch call createStartNamespacesStep {0}", ns);
 
         delegate.runSteps(createPacketWithLoggingContext(ns),
               new DomainRecheck(delegate, true).createStartNamespacesStep(Collections.singletonList(ns)),
