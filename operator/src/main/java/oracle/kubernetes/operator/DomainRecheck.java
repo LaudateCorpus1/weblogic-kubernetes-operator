@@ -128,7 +128,6 @@ class DomainRecheck {
 
     @Override
     public Step getDedicatedStrategySelection() {
-      LOGGER.info("DEBUG DomainRecheck getDedicatedStrategySelection {0}", domainNamespaces);
       return Step.chain(new Namespaces.NamespaceListAfterStep(domainNamespaces),
           createStartNamespacesStep(Collections.singletonList(getOperatorNamespace())));
     }
@@ -160,7 +159,6 @@ class DomainRecheck {
     // a strategy that specifies them explicitly.
     @Override
     protected NextAction onFailureNoRetry(Packet packet, CallResponse<V1NamespaceList> callResponse) {
-      LOGGER.info("DEBUG DomainRecheck NamespaceListResponseStep onFailureNoRetry");
       return useBackupStrategy(callResponse)
             ? doNext(createStartNamespacesStep(Namespaces.getConfiguredDomainNamespaces()), packet)
             : super.onFailureNoRetry(packet, callResponse);

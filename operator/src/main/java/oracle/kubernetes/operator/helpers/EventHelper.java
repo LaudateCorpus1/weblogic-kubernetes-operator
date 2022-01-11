@@ -131,8 +131,7 @@ public class EventHelper {
     }
 
     private Step createReplaceEventCall(CoreV1Event event, @NotNull CoreV1Event existingEvent) {
-      //XXX change it back to fine after debugging
-      LOGGER.info(MessageKeys.REPLACING_EVENT, eventData.eventItem);
+      LOGGER.fine(MessageKeys.REPLACING_EVENT, eventData.eventItem);
       existingEvent.count(Optional.ofNullable(existingEvent.getCount()).map(c -> c + 1).orElse(1));
       existingEvent.lastTimestamp(event.getLastTimestamp());
       return new CallBuilder()
@@ -784,10 +783,6 @@ public class EventHelper {
     @Override
     public String toString() {
       return "EventData: " + eventItem;
-    }
-
-    public static boolean isProcessingAbortedEvent(@NotNull EventData eventData) {
-      return eventData.eventItem == DOMAIN_FAILED && DomainFailureReason.Aborted.equals(eventData.failureReason);
     }
 
     /**

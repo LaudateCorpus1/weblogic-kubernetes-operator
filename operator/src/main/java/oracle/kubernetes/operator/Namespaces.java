@@ -72,10 +72,7 @@ public class Namespaces {
    * Returns an array of the label selectors that will determine that a namespace is being used to manage domains.
    */
   static String[] getLabelSelectors() {
-    SelectionStrategy strategy = getSelectionStrategy();
-    String[] selectors = strategy.getLabelSelectors();
-    LOGGER.info("DEBUG label strategy = {0} selectors = {1}", strategy, selectors);
-    return selectors;
+    return getSelectionStrategy().getLabelSelectors();
   }
 
   static <R> R getSelection(NamespaceStrategyVisitor<R> visitor) {
@@ -221,7 +218,7 @@ public class Namespaces {
           Optional.ofNullable(TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY))
                 .map(SelectionStrategy::valueOf)
                 .orElse(SelectionStrategy.List);
-    if (!strategyBefore.equals(strategy)) {
+    if (!strategyBefore.name().equals(strategy.name())) {
       LOGGER.info("XXXX GOT IT DEBUG getSelectionStrategy: before update: {0}, after {1}", strategyBefore, strategy);
     }
     if (SelectionStrategy.List.equals(strategy) && isDeprecatedDedicated()) {

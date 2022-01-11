@@ -539,8 +539,6 @@ public class Main {
       return;
     }
 
-    LOGGER.info("DEBUG dispatchNamespaceWatch for NS {0} type {1}", ns, item.type);
-
     switch (item.type) {
       case "ADDED":
         if (!Namespaces.isDomainNamespace(ns)) {
