@@ -23,6 +23,8 @@ public interface TuningParameters extends Map<String, String> {
     return TuningParametersImpl.getInstance();
   }
 
+  void updateTuningParametersNow();
+
   MainTuning getMainTuning();
 
   CallBuilderTuning getCallBuilderTuning();

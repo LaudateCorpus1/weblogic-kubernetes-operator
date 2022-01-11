@@ -115,4 +115,8 @@ public abstract class TuningParametersStub implements TuningParameters {
   public String getKubernetesPlatform() {
     return namedParameters.get("kubernetesPlatform");
   }
+
+  @Override
+  public void updateTuningParametersNow() {
+  }
 }

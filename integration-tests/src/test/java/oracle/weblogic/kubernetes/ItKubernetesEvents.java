@@ -800,8 +800,8 @@ class ItKubernetesEvents {
         .enableClusterRoleBinding(enableClusterRoleBinding);
     upgradeAndVerifyOperator(opNamespace, opParams);
 
-    logger.info("print role bindings in namespace {0}", domainNamespace3);
-    printNamespacedRoleBindings(domainNamespace3);
+    // logger.info("print role bindings in namespace {0}", domainNamespace3);
+    // printNamespacedRoleBindings(domainNamespace3);
 
     logger.info("verify NamespaceWatchingStarted event is logged in namespace {0}", domainNamespace3);
     checkEvent(opNamespace, domainNamespace3, null, NAMESPACE_WATCHING_STARTED, "Normal", timestamp);

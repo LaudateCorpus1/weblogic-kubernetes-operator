@@ -291,11 +291,14 @@ public class ServerStatusReader {
 
     @Override
     public NextAction apply(Packet packet) {
-      DomainPresenceInfo info = packet.getSpi(DomainPresenceInfo.class);
-      return doNext(
-          createDomainStatusReaderStep(
-              info, timeoutSeconds, DomainStatusUpdater.createStatusUpdateStep(getNext())),
-          packet);
+      return doNext(getNextStep(packet.getSpi(DomainPresenceInfo.class)), packet);
+    }
+
+    private Step getNextStep(DomainPresenceInfo info) {
+      return Optional.ofNullable(info)
+          .map(i -> createDomainStatusReaderStep(i, timeoutSeconds,
+              DomainStatusUpdater.createStatusUpdateStep(getNext())))
+          .orElse(getNext());
     }
   }
 }
