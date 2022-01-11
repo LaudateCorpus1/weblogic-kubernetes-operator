@@ -164,12 +164,12 @@ public class EventHelper {
 
       @Override
       public NextAction onFailure(Packet packet, CallResponse<CoreV1Event> callResponse) {
-        clearNamespaceStartingFlag();
         if (hasLoggedForbiddenNSWatchStoppedEvent(this, callResponse)) {
           return doNext(packet);
         }
 
         if (NAMESPACE_WATCHING_STARTED == eventData.eventItem) {
+          clearNamespaceStartingFlag();
           if (isForbidden(callResponse)) {
             LOGGER.warning(MessageKeys.CREATING_EVENT_FORBIDDEN,
                 eventData.eventItem.getReason(), eventData.getNamespace());
