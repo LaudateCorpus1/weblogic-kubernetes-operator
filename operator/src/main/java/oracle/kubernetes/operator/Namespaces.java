@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import jakarta.validation.constraints.NotNull;
 import oracle.kubernetes.operator.helpers.EventHelper.EventData;
 import oracle.kubernetes.operator.helpers.HelmAccess;
@@ -48,10 +49,10 @@ public class Namespaces {
 
   /**
    * Returns true if the specified string is the name of a domain namespace.
-   * @param ns a namespace name
+   * @param nsMetadata a namespace name
    */
-  static boolean isDomainNamespace(String ns) {
-    return getSelectionStrategy().isDomainNamespace(ns);
+  static boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
+    return getSelectionStrategy().isDomainNamespace(nsMetadata);
   }
 
   /**
@@ -73,7 +74,7 @@ public class Namespaces {
    */
   static String[] getLabelSelectors() {
     String[] selectors = getSelectionStrategy().getLabelSelectors();
-    LOGGER.info("DEBUG getLabelSelectors {0}", selectors);
+    //LOGGER.info("DEBUG getLabelSelectors {0}", selectors);
     return selectors;
   }
 
@@ -84,8 +85,8 @@ public class Namespaces {
   public enum SelectionStrategy {
     List {
       @Override
-      public boolean isDomainNamespace(@Nonnull String namespaceName) {
-        return getConfiguredDomainNamespaces().contains(namespaceName);
+      public boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
+        return getConfiguredDomainNamespaces().contains(nsMetadata.getName());
       }
 
       @Override
@@ -123,15 +124,34 @@ public class Namespaces {
       }
 
       @Override
-      public boolean isDomainNamespace(@Nonnull String namespaceName) {
-        return true;  // filtering is done by Kubernetes list call
+      public boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
+        // although filtering is done by Kubernetes list call, there is a rice condition where readExistingNamespaces
+        // may give us a namespace that does not match the required label selector.
+        return Optional.ofNullable(nsMetadata.getLabels())
+            .map(l -> matchLabelSelectors(l, getLabelSelectors()))
+            .orElse(false);
+
+      }
+
+      private boolean matchLabelSelectors(Map<String, String> labels, String[] labelSelectors) {
+        for (String selector : labelSelectors) {
+          if (!matchLabelSelector(labels, selector)) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      private boolean matchLabelSelector(Map<String, String> labels, String selector) {
+        String[] keyValue = selector.split("=");
+        return (labels.get(keyValue[0]) == null && keyValue[1] == null) || labels.get(keyValue[0]).equals(keyValue[1]);
       }
     },
     RegExp {
       @Override
-      public boolean isDomainNamespace(@Nonnull String namespaceName) {
+      public boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
         try {
-          return getCompiledPattern(getRegExp()).matcher(namespaceName).find();
+          return getCompiledPattern(getRegExp()).matcher(nsMetadata.getName()).find();
         } catch (PatternSyntaxException e) {
           LOGGER.severe(MessageKeys.EXCEPTION, e);
           return false;
@@ -153,8 +173,8 @@ public class Namespaces {
     },
     Dedicated {
       @Override
-      public boolean isDomainNamespace(@Nonnull String namespaceName) {
-        return namespaceName.equals(getOperatorNamespace());
+      public boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
+        return nsMetadata.getName().equals(getOperatorNamespace());
       }
 
       @Override
@@ -175,7 +195,7 @@ public class Namespaces {
 
     static final String[] NO_SELECTORS = new String[0];
 
-    public abstract boolean isDomainNamespace(@Nonnull String namespaceName);
+    public abstract boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata);
 
     public String[] getLabelSelectors() {
       return NO_SELECTORS;
@@ -211,19 +231,22 @@ public class Namespaces {
    * @return Selection strategy
    */
   static SelectionStrategy getSelectionStrategy() {
-    String realBefore = TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY);
+    //String realBefore = TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY);
 
-    SelectionStrategy strategyBefore =
-        Optional.ofNullable(TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY))
-            .map(SelectionStrategy::valueOf)
-            .orElse(SelectionStrategy.List);
-    TuningParameters.getInstance().updateTuningParametersNow();
+    //SelectionStrategy strategyBefore =
+    //    Optional.ofNullable(TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY))
+    //        .map(SelectionStrategy::valueOf)
+    //        .orElse(SelectionStrategy.List);
+    //TuningParameters.getInstance().updateTuningParametersNow();
     SelectionStrategy strategy =
           Optional.ofNullable(TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY))
                 .map(SelectionStrategy::valueOf)
                 .orElse(SelectionStrategy.List);
-    LOGGER.info("XXXX DEBUG getSelectionStrategy: before update: {0}, after {1}, realBefore {2} real {3}",
-        strategyBefore, strategy, realBefore, TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY));
+    //if (realBefore == null ||  TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY) == null
+    //    || strategyBefore.equals(strategy)) {
+    //  LOGGER.info("XXXX DEBUG getSelectionStrategy: before update: {0}, after {1}, realBefore {2} real {3}",
+    //      strategyBefore, strategy, realBefore, TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY));
+    //}
     if (SelectionStrategy.List.equals(strategy) && isDeprecatedDedicated()) {
       return SelectionStrategy.Dedicated;
     }

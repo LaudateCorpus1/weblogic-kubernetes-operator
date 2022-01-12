@@ -144,7 +144,7 @@ class DomainRecheck {
    */
   Step readExistingNamespaces() {
     String[] selectors = Namespaces.getLabelSelectors();
-    LOGGER.info("DEBUG readExistingNamespaces selectors = {0}", selectors);
+    LOGGER.info("DEBUG readExistingNamespaces selectors = {0}", (Object[]) selectors);
     return new CallBuilder()
           .withLabelSelectors(selectors)
           .listNamespaceAsync(new NamespaceListResponseStep());
@@ -173,7 +173,7 @@ class DomainRecheck {
 
     @Override
     public NextAction onSuccess(Packet packet, CallResponse<V1NamespaceList> callResponse) {
-      final Set<String> domainNamespaces = getNamespacesToStart(getNames(callResponse.getResult()));
+      final Set<String> domainNamespaces = getNames(getNamespacesToStart(getNSMetadata(callResponse.getResult())));
       LOGGER.info("DEBUG DomainRecheck NamespaceListResponseStep onSuccess namespaces {0}", domainNamespaces);
       Namespaces.getFoundDomainNamespaces(packet).addAll(domainNamespaces);
 
@@ -197,16 +197,22 @@ class DomainRecheck {
       return Namespaces.getConfiguredDomainNamespaces() != null;
     }
 
-    private Set<String> getNamespacesToStart(List<String> namespaceNames) {
-      return namespaceNames.stream().filter(Namespaces::isDomainNamespace).collect(Collectors.toSet());
+    private List<V1ObjectMeta> getNamespacesToStart(List<V1ObjectMeta> nsMetaDataList) {
+      return nsMetaDataList.stream().filter(Namespaces::isDomainNamespace).collect(Collectors.toList());
     }
 
-    private List<String> getNames(V1NamespaceList result) {
+    private List<V1ObjectMeta> getNSMetadata(V1NamespaceList result) {
       return result.getItems().stream()
             .map(V1Namespace::getMetadata)
             .filter(Objects::nonNull)
-            .map(V1ObjectMeta::getName)
             .collect(Collectors.toList());
+    }
+
+    private Set<String> getNames(List<V1ObjectMeta> nsMetadataList) {
+      return nsMetadataList.stream()
+          .filter(Objects::nonNull)
+          .map(V1ObjectMeta::getName)
+          .collect(Collectors.toSet());
     }
   }
 

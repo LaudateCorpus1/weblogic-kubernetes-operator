@@ -535,14 +535,15 @@ public class Main {
   }
 
   void dispatchNamespaceWatch(Watch.Response<V1Namespace> item) {
-    String ns = Optional.ofNullable(item.object).map(V1Namespace::getMetadata).map(V1ObjectMeta::getName).orElse(null);
-    if (ns == null) {
+    V1ObjectMeta metadata = Optional.ofNullable(item.object).map(V1Namespace::getMetadata).orElse(null);
+    String ns = Optional.ofNullable(metadata).map(V1ObjectMeta::getName).orElse(null);
+    if (metadata == null || ns == null) {
       return;
     }
 
     switch (item.type) {
       case "ADDED":
-        if (!Namespaces.isDomainNamespace(ns)) {
+        if (!Namespaces.isDomainNamespace(metadata)) {
           return;
         }
 
