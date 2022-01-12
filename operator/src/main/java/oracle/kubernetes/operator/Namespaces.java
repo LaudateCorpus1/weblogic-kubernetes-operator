@@ -127,10 +127,14 @@ public class Namespaces {
       public boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
         // although filtering is done by Kubernetes list call, there is a rice condition where readExistingNamespaces
         // may give us a namespace that does not match the required label selector.
-        return Optional.ofNullable(nsMetadata.getLabels())
+        boolean result =  Optional.ofNullable(nsMetadata.getLabels())
             .map(l -> matchLabelSelectors(l, getLabelSelectors()))
             .orElse(false);
-
+        if (result == false) {
+          LOGGER.info("XXXX DEBUG WE HIT THE CONDITION: isDomainNamespace returns false for ns {0}",
+              nsMetadata.getName());
+        }
+        return result;
       }
 
       private boolean matchLabelSelectors(Map<String, String> labels, String[] labelSelectors) {
