@@ -523,11 +523,12 @@ public class Main {
   }
 
   private NamespaceWatcher createNamespaceWatcher(String initialResourceVersion) {
-    LOGGER.info("DEBUG createNamespaceWatcher LabelSelector {0}", Namespaces.getLabelSelectors());
+    String[] selectors = Namespaces.getLabelSelectors();
+    LOGGER.info("DEBUG createNamespaceWatcher LabelSelector {0}", selectors);
     return NamespaceWatcher.create(
         threadFactory,
         initialResourceVersion,
-        Namespaces.getLabelSelectors(),
+        selectors,
         TuningParameters.getInstance().getWatchTuning(),
         this::dispatchNamespaceWatch,
         new AtomicBoolean(false));

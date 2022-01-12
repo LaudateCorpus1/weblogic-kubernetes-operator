@@ -143,8 +143,10 @@ class DomainRecheck {
    * identified as domain namespaces.
    */
   Step readExistingNamespaces() {
+    String[] selectors = Namespaces.getLabelSelectors();
+    LOGGER.info("DEBUG readExistingNamespaces selectors = {0}", selectors);
     return new CallBuilder()
-          .withLabelSelectors(Namespaces.getLabelSelectors())
+          .withLabelSelectors(selectors)
           .listNamespaceAsync(new NamespaceListResponseStep());
   }
 
