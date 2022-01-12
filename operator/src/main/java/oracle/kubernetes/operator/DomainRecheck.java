@@ -188,7 +188,7 @@ class DomainRecheck {
           nextSteps.add(createNamespaceReviewStep(namespacesToStartNow));
         }
         nextSteps.add(current);
-        current = Step.chain(nextSteps.toArray(new Step[0]));
+        current = Step.chain(nextSteps);
       }
       return current;
     }
