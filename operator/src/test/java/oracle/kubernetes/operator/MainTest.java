@@ -475,6 +475,19 @@ class MainTest extends ThreadFactoryTestBase {
     assertThat(getStartingNamespaces(), contains(NS_WEBLOGIC1, NS_WEBLOGIC3, NS_WEBLOGIC5));
   }
 
+  @Test
+  void withLabelSelector_onCreateReadNamespaces_ignoreSelectorOnList_startsNamespaces() {
+    defineSelectionStrategy(SelectionStrategy.LabelSelector);
+    testSupport.defineResources(NAMESPACE_WEBLOGIC1, NAMESPACE_WEBLOGIC2, NAMESPACE_WEBLOGIC3,
+        NAMESPACE_WEBLOGIC4, NAMESPACE_WEBLOGIC5);
+    testSupport.ingoreSelectorOnListOperation("namespace");
+
+    TuningParameters.getInstance().put("domainNamespaceLabelSelector", LABEL + "=" + VALUE);
+    runCreateReadNamespacesStep();
+
+    assertThat(getStartingNamespaces(), contains(NS_WEBLOGIC1, NS_WEBLOGIC3, NS_WEBLOGIC5));
+  }
+
   private V1ObjectMeta createMetadata(OffsetDateTime creationTimestamp) {
     return new V1ObjectMeta()
         .name(DOMAIN_UID)

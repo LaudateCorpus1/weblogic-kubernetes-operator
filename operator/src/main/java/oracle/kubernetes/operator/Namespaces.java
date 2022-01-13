@@ -3,6 +3,7 @@
 
 package oracle.kubernetes.operator;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -115,7 +116,9 @@ public class Namespaces {
     LabelSelector {
       @Override
       public String[] getLabelSelectors() {
-        return new String[]{TuningParameters.getInstance().get("domainNamespaceLabelSelector")};
+        return Optional.ofNullable(TuningParameters.getInstance().get("domainNamespaceLabelSelector"))
+            .map(s -> new String[]{s})
+            .orElse(new String[0]);
       }
 
       @Override
@@ -127,28 +130,33 @@ public class Namespaces {
       public boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
         // although filtering is done by Kubernetes list call, there is a rice condition where readExistingNamespaces
         // may give us a namespace that does not match the required label selector.
-        boolean result =  Optional.ofNullable(nsMetadata.getLabels())
-            .map(l -> matchLabelSelectors(l, getLabelSelectors()))
-            .orElse(false);
-        if (result == false) {
+        String[] selectors = getLabelSelectors();
+
+        boolean result = (selectors == null
+            || selectors.length == 0
+            || hasLabels(nsMetadata, selectors));
+
+        if (!result) {
           LOGGER.info("XXXX DEBUG WE HIT THE CONDITION: isDomainNamespace returns false for ns {0}",
               nsMetadata.getName());
         }
         return result;
       }
 
-      private boolean matchLabelSelectors(Map<String, String> labels, String[] labelSelectors) {
-        for (String selector : labelSelectors) {
-          if (!matchLabelSelector(labels, selector)) {
-            return false;
-          }
-        }
-        return true;
+      private boolean hasLabels(V1ObjectMeta metadata, String[] selectors) {
+        return Arrays.stream(selectors).allMatch(s -> hasLabel(metadata, s));
       }
 
-      private boolean matchLabelSelector(Map<String, String> labels, String selector) {
-        String[] keyValue = selector.split("=");
-        return (labels.get(keyValue[0]) == null && keyValue[1] == null) || labels.get(keyValue[0]).equals(keyValue[1]);
+      private boolean hasLabel(V1ObjectMeta metadata, String selector) {
+        String[] split = selector.split("=");
+        return includesLabel(metadata.getLabels(), split[0], split.length == 1 ? null : split[1]);
+      }
+
+      private boolean includesLabel(Map<String, String> labels, String key, String value) {
+        if (labels == null || !labels.containsKey(key)) {
+          return false;
+        }
+        return value == null || value.equals(labels.get(key));
       }
     },
     RegExp {

@@ -129,6 +129,7 @@ public class KubernetesTestSupport extends FiberTestSupport {
   private long resourceVersion;
   private int numCalls;
   private boolean addCreationTimestamp;
+  private boolean ignoreSelectorOnList;
 
   /**
    * Installs a factory into CallBuilder to use canned responses.
@@ -444,6 +445,14 @@ public class KubernetesTestSupport extends FiberTestSupport {
    */
   public void doAfterCall(@Nonnull String resourceType, @Nonnull String call, @Nonnull Runnable action) {
     afterCallAction = new AfterCallAction(resourceType, call, action);
+  }
+
+  /**
+   * Specifies an action to perform after completing the next matching invocation.
+   * @param resourceType the type of resource
+   */
+  public void ingoreSelectorOnListOperation(@Nonnull String resourceType) {
+    ignoreSelectorOnList = true;
   }
 
   @SuppressWarnings("unused")
@@ -792,7 +801,7 @@ public class KubernetesTestSupport extends FiberTestSupport {
     List<T> getResources(String fieldSelector, String... labelSelectors) {
       return data.values().stream()
           .filter(withFields(fieldSelector))
-          .filter(withLabels(labelSelectors))
+          .filter(withLabels(ignoreSelectorOnList ? new String[0] : labelSelectors))
           .collect(Collectors.toList());
     }
 
@@ -801,7 +810,9 @@ public class KubernetesTestSupport extends FiberTestSupport {
     }
 
     private Predicate<Object> withLabels(String[] labelSelectors) {
-      return o -> labelSelectors == null || hasLabels(getMetadata(o), labelSelectors);
+      return o -> (labelSelectors == null
+          || labelSelectors.length == 0
+          || hasLabels(getMetadata(o), labelSelectors));
     }
 
     private boolean hasLabels(V1ObjectMeta metadata, String[] selectors) {
