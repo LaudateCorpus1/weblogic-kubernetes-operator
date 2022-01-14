@@ -480,7 +480,7 @@ class MainTest extends ThreadFactoryTestBase {
     defineSelectionStrategy(SelectionStrategy.LabelSelector);
     testSupport.defineResources(NAMESPACE_WEBLOGIC1, NAMESPACE_WEBLOGIC2, NAMESPACE_WEBLOGIC3,
         NAMESPACE_WEBLOGIC4, NAMESPACE_WEBLOGIC5);
-    testSupport.ingoreSelectorOnListOperation("namespace");
+    testSupport.ignoreSelectorOnListOperation("namespace");
 
     TuningParameters.getInstance().put("domainNamespaceLabelSelector", LABEL + "=" + VALUE);
     runCreateReadNamespacesStep();

@@ -130,6 +130,7 @@ public class KubernetesTestSupport extends FiberTestSupport {
   private int numCalls;
   private boolean addCreationTimestamp;
   private boolean ignoreSelectorOnList;
+  private String ignoreSelectorOnListResourceType;
 
   /**
    * Installs a factory into CallBuilder to use canned responses.
@@ -448,11 +449,12 @@ public class KubernetesTestSupport extends FiberTestSupport {
   }
 
   /**
-   * Specifies an action to perform after completing the next matching invocation.
+   * Specifies if the label selectors should be ignored when list a resource.
    * @param resourceType the type of resource
    */
-  public void ingoreSelectorOnListOperation(@Nonnull String resourceType) {
+  public void ignoreSelectorOnListOperation(@Nonnull String resourceType) {
     ignoreSelectorOnList = true;
+    ignoreSelectorOnListResourceType = resourceType;
   }
 
   @SuppressWarnings("unused")
@@ -801,7 +803,7 @@ public class KubernetesTestSupport extends FiberTestSupport {
     List<T> getResources(String fieldSelector, String... labelSelectors) {
       return data.values().stream()
           .filter(withFields(fieldSelector))
-          .filter(withLabels(ignoreSelectorOnList ? new String[0] : labelSelectors))
+          .filter(withLabels(labelSelectors))
           .collect(Collectors.toList());
     }
 
@@ -1121,10 +1123,20 @@ public class KubernetesTestSupport extends FiberTestSupport {
     CallContext(RequestParams requestParams, String fieldSelector, String labelSelector, Integer gracePeriodSeconds) {
       this.requestParams = requestParams;
       this.fieldSelector = fieldSelector;
-      this.labelSelector = labelSelector == null ? null : labelSelector.split(",");
       this.gracePeriodSeconds = gracePeriodSeconds;
 
       parseCallName(requestParams);
+      this.labelSelector =
+          labelSelector == null || shouldIgnoreSelectorOnList()
+              ?
+              null
+              : labelSelector.split(",");
+    }
+
+    private boolean shouldIgnoreSelectorOnList() {
+      return ignoreSelectorOnList
+          && resourceType.equalsIgnoreCase(ignoreSelectorOnListResourceType)
+          && operation.equals(Operation.list);
     }
 
     public void setContinue(String cont) {
