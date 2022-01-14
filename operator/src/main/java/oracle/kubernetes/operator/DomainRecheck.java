@@ -144,7 +144,7 @@ class DomainRecheck {
    */
   Step readExistingNamespaces() {
     String[] selectors = Namespaces.getLabelSelectors();
-    LOGGER.info("DEBUG readExistingNamespaces selectors = {0}", (Object[]) selectors);
+    //LOGGER.info("DEBUG readExistingNamespaces selectors = {0}", (Object[]) selectors);
     return new CallBuilder()
           .withLabelSelectors(selectors)
           .listNamespaceAsync(new NamespaceListResponseStep());
@@ -174,7 +174,7 @@ class DomainRecheck {
     @Override
     public NextAction onSuccess(Packet packet, CallResponse<V1NamespaceList> callResponse) {
       final Set<String> domainNamespaces = getNames(getNamespacesToStart(getNSMetadata(callResponse.getResult())));
-      LOGGER.info("DEBUG DomainRecheck NamespaceListResponseStep onSuccess namespaces {0}", domainNamespaces);
+      //LOGGER.info("DEBUG DomainRecheck NamespaceListResponseStep onSuccess namespaces {0}", domainNamespaces);
       Namespaces.getFoundDomainNamespaces(packet).addAll(domainNamespaces);
 
       return doContinueListOrNext(callResponse, packet, createNextSteps(domainNamespaces));
