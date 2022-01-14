@@ -74,9 +74,7 @@ public class Namespaces {
    * Returns an array of the label selectors that will determine that a namespace is being used to manage domains.
    */
   static String[] getLabelSelectors() {
-    String[] selectors = getSelectionStrategy().getLabelSelectors();
-    //LOGGER.info("DEBUG getLabelSelectors {0}", selectors);
-    return selectors;
+    return getSelectionStrategy().getLabelSelectors();
   }
 
   static <R> R getSelection(NamespaceStrategyVisitor<R> visitor) {
@@ -243,22 +241,11 @@ public class Namespaces {
    * @return Selection strategy
    */
   static SelectionStrategy getSelectionStrategy() {
-    //String realBefore = TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY);
-
-    //SelectionStrategy strategyBefore =
-    //    Optional.ofNullable(TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY))
-    //        .map(SelectionStrategy::valueOf)
-    //        .orElse(SelectionStrategy.List);
-    //TuningParameters.getInstance().updateTuningParametersNow();
     SelectionStrategy strategy =
           Optional.ofNullable(TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY))
                 .map(SelectionStrategy::valueOf)
                 .orElse(SelectionStrategy.List);
-    //if (realBefore == null ||  TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY) == null
-    //    || strategyBefore.equals(strategy)) {
-    //  LOGGER.info("XXXX DEBUG getSelectionStrategy: before update: {0}, after {1}, realBefore {2} real {3}",
-    //      strategyBefore, strategy, realBefore, TuningParameters.getInstance().get(SELECTION_STRATEGY_KEY));
-    //}
+
     if (SelectionStrategy.List.equals(strategy) && isDeprecatedDedicated()) {
       return SelectionStrategy.Dedicated;
     }

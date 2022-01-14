@@ -120,8 +120,7 @@ public class EventHelper {
     }
 
     private Step createCreateEventCall(CoreV1Event event) {
-      //XXX change it back to fine after debugging
-      LOGGER.info(MessageKeys.CREATING_EVENT, eventData.eventItem);
+      LOGGER.fine(MessageKeys.CREATING_EVENT, eventData.eventItem);
       event.firstTimestamp(event.getLastTimestamp());
       return new CallBuilder()
           .createEventAsync(

@@ -20,7 +20,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import io.kubernetes.client.openapi.models.CoreV1EventList;
@@ -85,8 +84,7 @@ public class Main {
   private NamespaceWatcher namespaceWatcher;
   protected OperatorEventWatcher operatorNamespaceEventWatcher;
   private boolean warnedOfCrdAbsence;
-  private static NextStepFactory NEXT_STEP_FACTORY =
-          (next) -> createInitializeInternalIdentityStep(next);
+  private static final NextStepFactory NEXT_STEP_FACTORY = Main::createInitializeInternalIdentityStep;
 
   private static String getConfiguredServiceAccount() {
     return TuningParameters.getInstance().get("serviceaccount");
@@ -187,8 +185,7 @@ public class Main {
     }
 
     private void logConfiguredNamespaces(LoggingFacade loggingFacade, Collection<String> configuredDomainNamespaces) {
-      loggingFacade.info(MessageKeys.OP_CONFIG_DOMAIN_NAMESPACES,
-          configuredDomainNamespaces.stream().collect(Collectors.joining(", ")));
+      loggingFacade.info(MessageKeys.OP_CONFIG_DOMAIN_NAMESPACES, String.join(", ", configuredDomainNamespaces));
     }
 
     @Override
@@ -523,12 +520,10 @@ public class Main {
   }
 
   private NamespaceWatcher createNamespaceWatcher(String initialResourceVersion) {
-    String[] selectors = Namespaces.getLabelSelectors();
-    LOGGER.info("DEBUG createNamespaceWatcher LabelSelector {0}", selectors);
     return NamespaceWatcher.create(
         threadFactory,
         initialResourceVersion,
-        selectors,
+        Namespaces.getLabelSelectors(),
         TuningParameters.getInstance().getWatchTuning(),
         this::dispatchNamespaceWatch,
         new AtomicBoolean(false));
@@ -546,8 +541,6 @@ public class Main {
         if (!Namespaces.isDomainNamespace(metadata)) {
           return;
         }
-
-        LOGGER.info("DEBUG dispatchNamespaceWatch call createStartNamespacesStep {0}", ns);
 
         delegate.runSteps(createPacketWithLoggingContext(ns),
               new DomainRecheck(delegate, true).createStartNamespacesStep(Collections.singletonList(ns)),

@@ -53,10 +53,6 @@ public class TuningParametersImpl extends ConfigMapConsumer implements TuningPar
     ((TuningParametersImpl) INSTANCE).update();
   }
 
-  public void updateTuningParametersNow() {
-    update();
-  }
-
   private void update() {
     MainTuning main =
         new MainTuning(
