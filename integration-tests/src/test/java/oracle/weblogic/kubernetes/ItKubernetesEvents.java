@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import io.kubernetes.client.custom.V1Patch;
+import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.CoreV1Event;
 import io.kubernetes.client.openapi.models.V1Container;
 import io.kubernetes.client.openapi.models.V1EnvVar;
@@ -46,6 +47,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -58,6 +60,7 @@ import static oracle.weblogic.kubernetes.TestConstants.DOMAIN_API_VERSION;
 import static oracle.weblogic.kubernetes.TestConstants.K8S_NODEPORT_HOST;
 import static oracle.weblogic.kubernetes.TestConstants.WEBLOGIC_IMAGE_TO_USE_IN_SPEC;
 import static oracle.weblogic.kubernetes.actions.ActionConstants.RESOURCE_DIR;
+import static oracle.weblogic.kubernetes.actions.TestActions.createNamespace;
 import static oracle.weblogic.kubernetes.actions.TestActions.deleteDomainCustomResource;
 import static oracle.weblogic.kubernetes.actions.TestActions.deletePersistentVolume;
 import static oracle.weblogic.kubernetes.actions.TestActions.deletePersistentVolumeClaim;
@@ -262,7 +265,7 @@ class ItKubernetesEvents {
     assertTrue(patchDomainCustomResource(domainUid, domainNamespace1, patch, V1Patch.PATCH_FORMAT_JSON_PATCH),
         "Failed to patch domain");
 
-    logger.info("verify the DomainCompleted event is generated");
+    logger.info("verify the DomainChanged event is generated");
     checkEvent(opNamespace, domainNamespace1, domainUid, DOMAIN_CHANGED, "Normal", timestamp);
   }
 
@@ -432,6 +435,10 @@ class ItKubernetesEvents {
       V1Patch patch = new V1Patch(patchStr);
       assertTrue(patchDomainCustomResource(domainUid, domainNamespace1, patch, V1Patch.PATCH_FORMAT_JSON_PATCH),
           "Failed to patch domain");
+
+      logger.info("verify the DomainCompleted event is generated");
+      checkEvent(opNamespace, domainNamespace1, domainUid, DOMAIN_COMPLETED, "Normal", timestamp);
+
     }
   }
 
@@ -777,10 +784,9 @@ class ItKubernetesEvents {
   @Order(15)
   @ParameterizedTest
   @ValueSource(booleans = { true, false })
-  void testK8SEventsStartStopWatchingNSWithLabelSelector(boolean enableClusterRoleBinding) {
+  void testK8SEventsStartStopWatchingNSWithLabelSelector(boolean enableClusterRoleBinding) throws ApiException {
     logger.info("testing testK8SEventsStartStopWatchingNSWithLabelSelector with enableClusterRoleBinding={0}",
         enableClusterRoleBinding);
-
     OffsetDateTime timestamp = now();
 
     logger.info("Labeling namespace {0} to enable it in the operator watch list", domainNamespace3);
@@ -819,6 +825,40 @@ class ItKubernetesEvents {
     logger.info("verify NamespaceWatchingStopped event is logged in namespace {0}", domainNamespace3);
     checkNamespaceWatchingStoppedEvent(opNamespace, domainNamespace3, null, "Normal", timestamp,
         enableClusterRoleBinding);
+
+    if (enableClusterRoleBinding) {
+      String newNSWithoutLabels = "ns-newnamespace1";
+      String newNSWithLabels = "ns-newnamespace2";
+
+      assertDoesNotThrow(createNamespaces(newNSWithoutLabels, newNSWithLabels), "Failed to create new namespaces");
+
+      new Command()
+          .withParams(new CommandParams()
+              .command("kubectl label ns " + newNSWithLabels + " weblogic-operator=enabled --overwrite"))
+          .execute();
+
+      logger.info("verify NamespaceWatchingStarted event is logged in namespace {0}", newNSWithLabels);
+      checkEvent(opNamespace, newNSWithLabels, null, NAMESPACE_WATCHING_STARTED, "Normal", timestamp);
+
+      // verify there is no event logged in domainNamespace4
+      logger.info("verify NamespaceWatchingStarted event is not logged in {0}", domainNamespace4);
+      assertFalse(domainEventExists(opNamespace, newNSWithoutLabels, null, NAMESPACE_WATCHING_STARTED,
+          "Normal", timestamp), "domain event " + NAMESPACE_WATCHING_STARTED + " is logged in "
+          + newNSWithoutLabels + ", expected no such event will be logged");
+    }
+  }
+
+  private Executable createNamespaces(String newNSWithoutLabels, String newNSWithLabels) throws ApiException {
+    return () -> {
+      try {
+        createNamespace(newNSWithoutLabels);
+
+        createNamespace(newNSWithLabels);
+      } catch (ApiException apie) {
+        logger.info("XX got ApiException: ", apie.getMessage());
+        throw apie;
+      }
+    };
   }
 
   /**
@@ -1189,7 +1229,7 @@ class ItKubernetesEvents {
   }
 
   private void scaleDomain(int replicaCount) {
-    scaleDomainAndVerifyCompletedEvent(replicaCount, null, false);
+    scaleDomainAndVerifyCompletedEvent(replicaCount, "scale back", false);
   }
 
 }

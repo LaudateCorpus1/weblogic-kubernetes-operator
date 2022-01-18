@@ -1,4 +1,4 @@
-// Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+// Copyright (c) 2020, 2022, Oracle and/or its affiliates.
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 package oracle.kubernetes.operator;
@@ -49,8 +49,8 @@ public class Namespaces {
   private static final String ALL_DOMAIN_NAMESPACES = "ALL_DOMAIN_NAMESPACES";
 
   /**
-   * Returns true if the specified string is the name of a domain namespace.
-   * @param nsMetadata a namespace name
+   * Returns true if the specified namespace is managed by the operator.
+   * @param nsMetadata metadata of the namespace to check
    */
   static boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
     return getSelectionStrategy().isDomainNamespace(nsMetadata);
@@ -127,25 +127,22 @@ public class Namespaces {
       @Override
       public boolean isDomainNamespace(@Nonnull V1ObjectMeta nsMetadata) {
         // although filtering is done by Kubernetes list call, there is a rice condition where readExistingNamespaces
-        // may give us a namespace that does not match the required label selector.
+        // may give us a namespace that does not match the required label selector when the operator's selection
+        // strategy is changed from List to LabelSelector when the operator is running.
         String[] selectors = getLabelSelectors();
 
-        boolean result = (selectors == null
-            || selectors.length == 0
-            || hasLabels(nsMetadata, selectors));
-
-        if (!result) {
-          LOGGER.info("XXXX DEBUG WE HIT THE CONDITION: isDomainNamespace returns false for ns {0}",
-              nsMetadata.getName());
-        }
-        return result;
+        return matchSpecifiedLabelSelectors(nsMetadata, selectors);
       }
 
-      private boolean hasLabels(V1ObjectMeta metadata, String[] selectors) {
+      private boolean matchSpecifiedLabelSelectors(@NotNull V1ObjectMeta nsMetadata, String[] selectors) {
+        return selectors == null || selectors.length == 0 || hasLabels(nsMetadata, selectors);
+      }
+
+      private boolean hasLabels(@NotNull V1ObjectMeta metadata, String[] selectors) {
         return Arrays.stream(selectors).allMatch(s -> hasLabel(metadata, s));
       }
 
-      private boolean hasLabel(V1ObjectMeta metadata, String selector) {
+      private boolean hasLabel(@Nonnull V1ObjectMeta metadata, String selector) {
         String[] split = selector.split("=");
         return includesLabel(metadata.getLabels(), split[0], split.length == 1 ? null : split[1]);
       }
