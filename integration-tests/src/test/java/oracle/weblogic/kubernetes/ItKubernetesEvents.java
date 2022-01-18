@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import io.kubernetes.client.custom.V1Patch;
-import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.CoreV1Event;
 import io.kubernetes.client.openapi.models.V1Container;
 import io.kubernetes.client.openapi.models.V1EnvVar;
@@ -784,7 +783,7 @@ class ItKubernetesEvents {
   @Order(15)
   @ParameterizedTest
   @ValueSource(booleans = { true, false })
-  void testK8SEventsStartStopWatchingNSWithLabelSelector(boolean enableClusterRoleBinding) throws ApiException {
+  void testK8SEventsStartStopWatchingNSWithLabelSelector(boolean enableClusterRoleBinding) {
     logger.info("testing testK8SEventsStartStopWatchingNSWithLabelSelector with enableClusterRoleBinding={0}",
         enableClusterRoleBinding);
     OffsetDateTime timestamp = now();
@@ -848,16 +847,10 @@ class ItKubernetesEvents {
     }
   }
 
-  private Executable createNamespaces(String newNSWithoutLabels, String newNSWithLabels) throws ApiException {
+  private Executable createNamespaces(String newNSWithoutLabels, String newNSWithLabels) {
     return () -> {
-      try {
-        createNamespace(newNSWithoutLabels);
-
-        createNamespace(newNSWithLabels);
-      } catch (ApiException apie) {
-        logger.info("XX got ApiException: ", apie.getMessage());
-        throw apie;
-      }
+      createNamespace(newNSWithoutLabels);
+      createNamespace(newNSWithLabels);
     };
   }
 
