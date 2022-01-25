@@ -108,10 +108,10 @@ Make sure you use the same service account to which you granted permission in th
 context constraint (`weblogic-operator` in the preceding example).  The operator will then run
 with UID 1000, and any WebLogic domain it creates will also run with UID 1000.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 For additional information about OpenShift requirements and the operator,
 see [OpenShift]({{<relref  "/userguide/platforms/environments#openshift">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Use a dedicated namespace
 

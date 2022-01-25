@@ -23,12 +23,12 @@ along with the URL of the WebLogic Server Administration Server's administration
 
 **Note**:  An Administration Server administration port typically is the same as its default port unless either an SSL port or an administration port is configured and enabled.
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Externally exposing administrative, RMI, or T3 capable WebLogic channels
 using a Kubernetes `NodePort`, load balancer,
 port forwarding, or a similar method can create an insecure configuration.
 For more information, see [External network access security]({{<relref "/security/domain-security/weblogic-channels.md">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 
 ### Setup

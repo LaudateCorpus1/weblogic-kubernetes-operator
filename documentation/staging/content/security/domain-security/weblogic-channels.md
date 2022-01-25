@@ -7,10 +7,10 @@ description: "Remote access security."
 
 #### WebLogic T3 and administrative channels
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Oracle recommends _not_ exposing any administrative, RMI, or T3 channels outside the Kubernetes cluster
 unless absolutely necessary.
-{{% /notice %}}
+{{< /alert >}}
 
 If exposing an administrative, RMI, EJB, JMS, or T3 capable
 channel using a load balancer,

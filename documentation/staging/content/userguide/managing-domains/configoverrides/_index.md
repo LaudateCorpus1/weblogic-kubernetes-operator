@@ -25,9 +25,9 @@ pre = "<b> </b>"
 ---
 ### Overview
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Configuration overrides can only be used in combination with Domain in Image and Domain in PV domains. For Model in Image domains, use [Model in Image Runtime Updates]({{< relref "/userguide/managing-domains/model-in-image/runtime-updates.md" >}}) instead.
-{{% /notice %}}
+{{< /alert >}}
 
 Use configuration overrides (also called _situational configuration_) to customize a Domain in Image or Domain in PV domain's WebLogic domain configuration without modifying the domain's actual `config.xml` or system resource files. For example, you may want to override a JDBC data source XML module user name, password, and URL so that it references a local database.
 
@@ -210,9 +210,9 @@ Two types of macros are supported, environment variable macros and secret macros
 
 The secret macro `SECRETNAME` field must reference the name of a Kubernetes Secret, and the `SECRETKEY` field must reference a key within that Secret. For example, if you have created a Secret named `dbuser` with a key named `username` that contains the value `scott`, then the macro `${secret:dbuser.username}` will be replaced with the word `scott` before the template is copied into its WebLogic Server instance Pod.
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 **SECURITY NOTE**: Use the `:encrypt` suffix in a secret macro to encrypt its replacement value with the WebLogic WLST `encrypt` command (instead of leaving it at its plain text value).  This is useful for overriding MBean attributes that expect encrypted values, such as the `password-encrypted` field of a data source, and is also useful for ensuring that a custom overrides configuration file the operator places in the domain home does not expose passwords in plain-text.
-{{% /notice %}}
+{{< /alert >}}
 
 #### Override template syntax special requirements
 
@@ -502,5 +502,5 @@ __Debugging steps:__
   * WebLogic Server instances monitor the files in `optconfig` and dynamically update the active configuration based on the current contents of the configuration overrides files.
   * Otherwise, if the `overridesDistributionStrategy` is ON_RESTART, then the updated files at the ConfigMap's mount point are not copied to `optconfig` while the WebLogic Server instance is running and, therefore, don't affect the active configuration.
 
-{{% notice note %}} Changes to configuration overrides distributed to running WebLogic Server instances can only take effect if the corresponding WebLogic configuration MBean attribute is "dynamic". For instance, the Data Source `passwordEncrypted` attribute is dynamic while the `Url` attribute is non-dynamic.
-{{% /notice %}}
+{{< alert title="NOTE" color="primary" >}} Changes to configuration overrides distributed to running WebLogic Server instances can only take effect if the corresponding WebLogic configuration MBean attribute is "dynamic". For instance, the Data Source `passwordEncrypted` attribute is dynamic while the `Url` attribute is non-dynamic.
+{{< /alert >}}

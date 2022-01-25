@@ -21,11 +21,11 @@ You can:
 * Expose HTTP paths on a WebLogic domain outside the Kubernetes domain with load balancing, and automatically update the load balancer when Managed Servers in the WebLogic domain are started or stopped.
 * Publish operator and WebLogic Server logs into Elasticsearch and interact with them in Kibana.
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 The fastest way to experience the operator is to follow the [Quick Start guide]({{< relref "/quickstart/_index.md" >}}), or you can peruse our [documentation]({{< relref "/userguide/_index.md" >}}), read our [blogs](https://blogs.oracle.com/weblogicserver/how-to-weblogic-server-on-kubernetes), or try out the [samples]({{< relref "/samples/_index.md" >}}).
 Also, you can step through the [Tutorial](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/hands-on-lab/README.md)
 using the operator to deploy and run a WebLogic domain container-packaged web application on an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster.
-{{% /notice %}}
+{{< /alert >}}
 
 ***
 #### Current production release

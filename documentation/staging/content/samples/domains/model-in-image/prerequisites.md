@@ -48,9 +48,9 @@ weight: 1
 
    For example, follow the same steps as the [Quick Start](https://oracle.github.io/weblogic-kubernetes-operator/quickstart/) guide up through the [Prepare for a domain]({{< relref "/quickstart/prepare.md" >}}) step.
 
-   {{% notice info %}}
+   {{< alert title="INFO" color="info" >}}
    Make sure you stop when you complete the "Prepare for a domain" step and then resume following these instructions.
-   {{% /notice %}}
+   {{< /alert >}}
 
 1. Set up ingresses that will redirect HTTP from Traefik port 30305 to the clusters in this sample's WebLogic domains.
 
@@ -137,9 +137,9 @@ weight: 1
 
    e. Later in this sample, when you run WebLogic Image Tool commands, the tool will use the image as a base image for creating model images. Specifically, the tool will implicitly call `docker pull` for one of the above licensed images as specified in the tool's command line using the `--fromImage` parameter. For `JRF`, this sample specifies `container-registry.oracle.com/middleware/fmw-infrastructure:12.2.1.4`, and for `WLS`, the sample specifies `container-registry.oracle.com/middleware/weblogic:12.2.1.4`.
 
-     {{% notice info %}}
+     {{< alert title="INFO" color="info" >}}
    If you prefer, you can create your own base image and then substitute this image name in the WebLogic Image Tool `--fromImage` parameter throughout this sample. For example, you may wish to start with a base image that has patches applied. See [Preparing a Base Image]({{< relref "/userguide/base-images/_index.md" >}}).
-     {{% /notice %}}
+     {{< /alert >}}
 
 1. Download the latest [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) and [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) installer ZIP files to your `/tmp/mii-sample/model-images` directory. Both WDT and WIT are required to create your Model in Image container images.
 
@@ -289,9 +289,9 @@ For example, in this sample:
 
 ##### Important considerations for reusing or sharing OPSS tables
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 We do not recommend that users share OPSS tables.  Extreme caution is required when sharing OPSS tables between domains.
-{{% /notice %}}
+{{< /alert >}}
 
 When you successfully deploy your JRF Domain YAML file for the first time, the introspector job will initialize the OPSS tables for the domain using the `domainInfo -> RCUDbInfo` stanza in the WDT model plus the `configuration.opss.walletPasswordSecret` specified in the Domain YAML file. The job will also create a new domain home. Finally, the operator will also capture an OPSS wallet file from the new domain's local directory and place this file in a new Kubernetes ConfigMap.
 

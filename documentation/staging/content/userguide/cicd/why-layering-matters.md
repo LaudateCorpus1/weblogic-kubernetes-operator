@@ -56,11 +56,11 @@ is used to encrypt several other things in your domain configuration, like passw
 for example.  Today (in WebLogic Server 12.2.1.4.0) there is no way to conveniently
 "extract" or "reuse" this encryption key.  So what does this mean in practice?
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 If you recreate a Domain in Image domain in your CI/CD process, even though you may end up with
 a domain that is for all intents and purposes identical to the previous domain, it
 will have a different encryption key.
-{{% /notice %}}
+{{< /alert >}}
 
 This means that technically, it is a "different" domain for Domain in Image type domains.
 Does this matter?  Maybe,

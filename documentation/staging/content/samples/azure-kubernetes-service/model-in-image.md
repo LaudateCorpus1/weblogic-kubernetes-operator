@@ -95,8 +95,8 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-{{% notice tip %}} If you wish to use a more recent version of the operator, replace the `3.1.1` in the preceding command with the other version number. To see the list of version numbers, visit the [GitHub releases page](https://github.com/oracle/weblogic-kubernetes-operator/releases).
-{{% /notice %}}
+{{< alert title="TIP" color="info" >}} If you wish to use a more recent version of the operator, replace the `3.1.1` in the preceding command with the other version number. To see the list of version numbers, visit the [GitHub releases page](https://github.com/oracle/weblogic-kubernetes-operator/releases).
+{{< /alert >}}
 
 
 Verify the operator with the following commands; the status will be `Running`.
@@ -116,13 +116,13 @@ NAME                                 READY   STATUS    RESTARTS   AGE
 weblogic-operator-775b668c8f-nwwnn   1/1     Running   0          32s
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 You can sepcify the operator image by changing value of `--set image`. If you run into failures, see [Troubleshooting - WebLogic Kubernetes Operator installation failure]({{< relref "/samples/azure-kubernetes-service/troubleshooting#weblogic-kubernetes-operator-installation-failure" >}}).
-{{% /notice %}}
+{{< /alert >}}
 
-{{% notice info %}}
+{{< alert title="INFO" color="info" >}}
 If you have a Docker image built with domain models following [Model in Image]({{< relref "/samples/domains/model-in-image/_index.md" >}}), you can go to [Create WebLogic domain](#create-weblogic-domain) directly.
-{{% /notice %}}
+{{< /alert >}}
 
 #### Create Docker image
 
@@ -351,9 +351,9 @@ $ docker images | grep WLS-v1
 model-in-image          WLS-v1   012d3bfa3536   5 days ago      1.13GB
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 You may run into a `Dockerfile` parsing error if your Docker buildkit is enabled, see [Troubleshooting - WebLogic Image Tool failure]({{< relref "/samples/azure-kubernetes-service/troubleshooting#weblogic-image-tool-failure" >}}).
-{{% /notice %}}
+{{< /alert >}}
 
 ##### Pushing the image to Azure Container Registry
 

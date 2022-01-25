@@ -8,9 +8,9 @@ description: "Ingress controllers and load balancer sample scripts."
 
 The WebLogic Kubernetes Operator supports NGINX, Traefik, and Apache. We provide samples that demonstrate how to install and configure each one.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 For production environments, we recommend NGINX, Traefik (2.2.1 or later) ingress controllers, Apache, or the load balancer provided by your cloud provider.
-{{% /notice %}}
+{{< /alert >}}
 
 
 The samples are located in following folders:
@@ -22,6 +22,6 @@ The samples are located in following folders:
 * [Ingress-per-domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/samples/charts/ingress-per-domain/README.md)
 * [Apache-webtier](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/samples/charts/apache-webtier/README.md)
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The Apache-webtier script contains a Helm chart that is used in the Apache samples.
-{{% /notice %}}
+{{< /alert >}}

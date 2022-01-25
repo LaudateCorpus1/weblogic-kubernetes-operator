@@ -53,8 +53,8 @@ will be graceful, the timeout, and if in-flight sessions are given the opportuni
 The `serverStartPolicy` and `replicas` fields of the Domain controls which servers should be running.
 The operator monitors these fields and creates or deletes the corresponding WebLogic Server instance Pods.
 
-{{% notice note %}} Do not use the WebLogic Server Administration Console to start or stop servers.
-{{% /notice %}}
+{{< alert title="NOTE" color="primary" >}} Do not use the WebLogic Server Administration Console to start or stop servers.
+{{< /alert >}}
 
 #### `serverStartPolicy` rules
 
@@ -90,13 +90,13 @@ You can specify the `serverStartPolicy` property at the domain, cluster, and ser
 | `IF_NEEDED` | `IF_NEEDED` | `ALWAYS` | Started |
 | `IF_NEEDED` | `IF_NEEDED` | `IF_NEEDED` | Started if needed to get to the cluster's `replicas` count |
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Servers configured as `ALWAYS` count toward the cluster's `replicas` count.
-{{% /notice %}}
+{{< /alert >}}
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If more servers are configured as `ALWAYS` than the cluster's `replicas` count, they will all be started and the `replicas` count will be exceeded.
-{{% /notice %}}
+{{< /alert >}}
 
 ### Server start state
 
@@ -171,7 +171,7 @@ To shut down a specific standalone server, add it to the Domain and set its `ser
       serverStartPolicy: "NEVER"
     ...
 ```
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The Administration Server can be shut down by setting the `serverStartPolicy` of the `adminServer` to `NEVER`.
 Care should be taken when shutting down the Administration Server. If a Managed Server cannot connect
 to the Administration Server during startup, it will try to start up in
@@ -179,7 +179,7 @@ to the Administration Server during startup, it will try to start up in
 but this could fail due to reasons such as no accessible
 [*Authentication Provider*](https://docs.oracle.com/en/middleware/fusion-middleware/weblogic-server/12.2.1.4/secmg/atn_intro.html#GUID-E56E30B4-5C18-4A21-A683-AC166792A9DE)
 from the Managed Server pod.
-{{% /notice %}}
+{{< /alert >}}
 
 
 #### Force a specific clustered Managed Server to start
@@ -198,7 +198,7 @@ This is done by adding the server to the Domain and setting its `serverStartPoli
     ...
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The server will count toward the cluster's `replicas` count.  Also, if you configure more than the `replicas` servers count to `ALWAYS`, they will all be started, even though the `replicas` count will be exceeded.
 {{%/ notice %}}
 
@@ -298,17 +298,17 @@ The operator will restart servers when any of the follow fields on the Domain th
 
 For Model in Image, a change to the `introspectVersion` field, which causes the operator to initiate a new [introspection]({{< relref "/userguide/managing-domains/domain-lifecycle/introspection.md" >}}), will result in the restarting of servers if the introspection results in the generation of a modified WebLogic domain home. See the documentation on Model in Image [runtime updates]({{< relref "/userguide/managing-domains/model-in-image/runtime-updates.md" >}}) for a description of changes to the model or associated resources, such as Secrets, that will cause the generation of a modified WebLogic domain home.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If the only change detected is the addition or modification of a customer-specified label or annotation,
 the operator will *patch* the Pod rather than restarting it. Removing a label or annotation from
 the Domain will cause neither a restart nor a patch. It is possible to force a restart to remove
 such a label or annotation by modifying the `restartVersion`.
-{{% /notice %}}
+{{< /alert >}}
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Prior to version 2.2.0, the operator incorrectly restarted servers when the `serverStartState` field was changed.  Now,
 this property has no affect on already running servers.
-{{% /notice %}}
+{{< /alert >}}
 
 ### Rolling restarts
 
@@ -322,9 +322,9 @@ The primary server creates a primary session state on the server to which the cl
 Specifying a `maxUnavailable` property value of `1` protects against inadvertent session state loss which could occur if both the primary and secondary
 servers are shut down at the same time during the rolling restart process.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If you are supplying updated models or secrets for a running Model in Image domain, and you want the configuration updates to take effect using a rolling restart, consult [Modifying WebLogic Configuration]({{< relref "/userguide/managing-domains/domain-lifecycle/restarting/_index.md#modifying-the-weblogic-domain-configuration" >}}) and [Runtime updates]({{< relref "/userguide/managing-domains/model-in-image/runtime-updates.md" >}}) before consulting this document.
-{{% /notice %}}
+{{< /alert >}}
 
 ### Draining a node and PodDisruptionBudget
 
@@ -344,9 +344,9 @@ The operator will detect the new value and restart the affected servers (using t
 
 The `restartVersion` property can be specified at the domain, cluster, and server levels.  A server will be restarted if any of these three values change.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The servers will also be restarted if `restartVersion` is removed from the Domain (for example, if you had previously specified a value to cause a restart, then you remove that value after the previous restart has completed).
-{{% /notice %}}
+{{< /alert >}}
 
 
 #### Restart all the servers in the domain

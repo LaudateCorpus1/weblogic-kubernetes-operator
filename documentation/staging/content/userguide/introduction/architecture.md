@@ -122,18 +122,18 @@ This diagram shows the following details:
 *	A `PodDisruptionBudget` is created for each WebLogic cluster. These pod disruption budgets are labeled with `weblogic.domainUID`, `weblogic.clusterName` and `weblogic.domainName`.
 *	An Ingress may optionally be created by the customer for each WebLogic cluster.  An Ingress provides load balanced HTTP access to all Managed Servers in that WebLogic cluster.  The load balancer updates its routing table for an Ingress every time a Managed Server in the WebLogic cluster becomes “ready” or ceases to be able to service requests, such that the Ingress always points to just those Managed Servers that are able to handle user requests.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Kubernetes requires that the names of some resource types follow the DNS label standard as defined in [DNS Label Names](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names) and [RFC 1123](https://tools.ietf.org/html/rfc1123). Therefore, the operator enforces that the names of the Kubernetes resources do not exceed Kubernetes limits (see [Meet Kubernetes resource name restrictions]({{< relref "/userguide/managing-domains/_index.md#meet-kubernetes-resource-name-restrictions" >}})).
-{{% /notice %}}
+{{< /alert >}}
 
 The diagram below shows the components inside the containers running WebLogic Server instances:
 
 {{< img "Inside a container" "images/inside-a-container.png" >}}
 
 The Domain specifies a container image, defaulting to `container-registry.oracle.com/middleware/weblogic:12.2.1.4`. All containers running WebLogic Server use this same image. Depending on the use case, this image could contain the WebLogic Server product binaries or also include the domain directory.
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 During a rolling event caused by a change to the Domain's `image` field, containers will be using a mix of the updated value of the `image` field and its previous value.
-{{% /notice %}}
+{{< /alert >}}
 Within the container, the following aspects are configured by the operator:
 
 *	The `ENTRYPOINT` is configured by a script that starts up a Node Manager process, and then uses WLST to request that Node Manager start the server.  Node Manager is used to start servers so that the socket connection to the server will be available to obtain server status even when the server is unresponsive.  This is used by the liveness probe.

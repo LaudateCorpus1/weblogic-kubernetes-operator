@@ -15,9 +15,9 @@ kubernetes `tls secret` and using that secret's name with the operator Helm char
 This sample script generates a self-signed certificate and private key that can be used
 for the operator's external REST API when experimenting with the operator.
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 The certificate and key generated with this script should ***not*** be used in a production environment.
-{{% /notice %}}
+{{< /alert >}}
 
 The syntax of the script is:
 ```shell

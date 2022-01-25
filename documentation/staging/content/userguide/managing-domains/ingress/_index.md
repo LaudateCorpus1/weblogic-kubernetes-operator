@@ -33,7 +33,7 @@ For example, if the `domainUID` is `myDomain_1` and the cluster name is `myClust
 The service, `serviceName` and `servicePort`, of a WebLogic cluster will be used in the routing rules defined in the Ingress
 object and the load balancer will route traffic to the WebLogic Servers within the cluster based on the rules.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Most common ingress controllers, for example Traefik and NGINX,
 understand that there are zero or more actual pods behind the service, and they actually
 build their backend list and route requests to those backends directly, not through the service.  This means that
@@ -41,7 +41,7 @@ requests are properly balanced across the pods, according to the load balancing 
 in use.  Most ingress controllers also
 subscribe to updates on the service and adjust their internal backend sets when
 additional pods become ready, or pods enter a non-ready state.
-{{% /notice %}}
+{{< /alert >}}
 
 #### Steps to set up an ingress load balancer
 
@@ -69,8 +69,8 @@ Information about how to install and configure these ingress controllers to load
  - [Traefik guide](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/samples/charts/traefik/README.md)
  - [NGINX guide](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/samples/charts/nginx/README.md)
 
- {{% notice note %}}
+ {{< alert title="NOTE" color="primary" >}}
  For production environments, we recommend NGINX, Traefik (2.2.1 or later) ingress controllers, Apache, or the load balancer provided by your cloud provider.
- {{% /notice %}}
+ {{< /alert >}}
 
 Samples are also provided for the Traefik ingress controller, showing how to manage multiple WebLogic clusters as the backends, using different routing rules, host-routing and path-routing; and TLS termination: [Traefik samples](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/samples/charts/traefik/samples).

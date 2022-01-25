@@ -25,10 +25,10 @@ The primordial domain ZIP file should be stored in a safe place where the CI/CD
 can get it when needed, for example in a secured Artifactory repository (or
 something similar).  
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Remember, anyone who gets access to this ZIP file can get access
 to the domain encryption key, so it needs to be protected appropriately.
-{{% /notice %}}
+{{< /alert >}}
 
 Every time you run your CI/CD pipeline to create a new mutation of the domain,
 it should retrieve and unzip the primordial domain first, and then apply changes

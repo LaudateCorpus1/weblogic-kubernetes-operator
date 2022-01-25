@@ -29,8 +29,8 @@ weight: 3
      $ docker pull container-registry.oracle.com/middleware/weblogic:12.2.1.4
      ```
 
-    {{% notice note %}} The WebLogic Server image, `weblogic:12.2.1.3`, has all the necessary patches applied. The WebLogic Server image, `weblogic:12.2.1.4`, does not require any additional patches.
-    {{% /notice %}}
+    {{< alert title="NOTE" color="primary" >}} The WebLogic Server image, `weblogic:12.2.1.3`, has all the necessary patches applied. The WebLogic Server image, `weblogic:12.2.1.4`, does not require any additional patches.
+    {{< /alert >}}
 
 
 1. Copy the image to all the nodes in your cluster, or put it in a container registry that your cluster can access.

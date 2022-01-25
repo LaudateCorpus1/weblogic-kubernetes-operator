@@ -32,8 +32,8 @@ Clone the [WebLogic Kubernetes Operator repository](https://github.com/oracle/we
 $ git clone --branch v{{< latestVersion >}} https://github.com/oracle/weblogic-kubernetes-operator.git
 ```
 
-{{% notice info %}} The following sections of the sample instructions will guide you, step-by-step, through the process of setting up a WebLogic cluster on AKS - remaining as close as possible to a native Kubernetes experience. This lets you understand and customize each step. If you wish to have a more automated experience that abstracts some lower level details, you can skip to the [Automation](#automation) section.
-{{% /notice %}}
+{{< alert title="INFO" color="info" >}} The following sections of the sample instructions will guide you, step-by-step, through the process of setting up a WebLogic cluster on AKS - remaining as close as possible to a native Kubernetes experience. This lets you understand and customize each step. If you wish to have a more automated experience that abstracts some lower level details, you can skip to the [Automation](#automation) section.
+{{< /alert >}}
 
 {{< readfile file="/samples/azure-kubernetes-service/includes/create-aks-cluster-body-02.txt" >}}
 
@@ -79,8 +79,8 @@ NAME                                              READY   STATUS      RESTARTS  
 weblogic-operator-56654bcdb7-qww7f                1/1     Running     0          25m
 ```
 
-{{% notice tip %}} You will have to press Ctrl-C to exit this command due to the `-w` flag.
-{{% /notice %}}
+{{< alert title="TIP" color="info" >}} You will have to press Ctrl-C to exit this command due to the `-w` flag.
+{{< /alert >}}
 
 #### Create WebLogic domain
 
@@ -144,7 +144,7 @@ weblogic-operator-secrets                 Opaque                                
 ##### Create WebLogic Domain
 We will use the `kubernetes/samples/scripts/create-weblogic-domain/domain-home-on-pv/create-domain.sh` script to create the WLS domain in the persistent volume we created previously.
 
-{{% notice note %}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
+{{< alert title="NOTE" color="primary" >}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
 {{% /notice%}}
 
 We need to set up the domain configuration for the WebLogic domain.
@@ -301,7 +301,7 @@ We need to set up the domain configuration for the WebLogic domain.
    troubleshoot the reason and resolve it before proceeding to the next
    step.
 
-    {{% notice note %}} This sample creates WebLogic Server Pods with reasonable values for memory, CPU, and JVM heap size (as a percentage of memory). These settings were determined by running a skeleton WebLogic domain with minimal or no deployed services and applications on potentially limited or heavily shared container environments. For advice about tuning CPU and memory requests and limits for broader use cases or in a production environment, see the [Pod memory and CPU resources](https://oracle.github.io/weblogic-kubernetes-operator/faq/resource-settings/) FAQ. To supply different values, edit `~/azure/weblogic-on-aks/domain1.yaml` and set the desired values for `serverPodMemoryRequest`, `serverPodMemoryLimit`, `serverPodCpuRequest`, `serverPodCpuLimit` and `javaOptions` before running `./create-domain.sh -i ~/azure/weblogic-on-aks/domain1.yaml -o ~/azure -e -v`.
+    {{< alert title="NOTE" color="primary" >}} This sample creates WebLogic Server Pods with reasonable values for memory, CPU, and JVM heap size (as a percentage of memory). These settings were determined by running a skeleton WebLogic domain with minimal or no deployed services and applications on potentially limited or heavily shared container environments. For advice about tuning CPU and memory requests and limits for broader use cases or in a production environment, see the [Pod memory and CPU resources](https://oracle.github.io/weblogic-kubernetes-operator/faq/resource-settings/) FAQ. To supply different values, edit `~/azure/weblogic-on-aks/domain1.yaml` and set the desired values for `serverPodMemoryRequest`, `serverPodMemoryLimit`, `serverPodCpuRequest`, `serverPodCpuLimit` and `javaOptions` before running `./create-domain.sh -i ~/azure/weblogic-on-aks/domain1.yaml -o ~/azure -e -v`.
     {{% /notice%}}
 
     Here is an excerpt showing reasonable values:
@@ -410,8 +410,8 @@ We need to set up the domain configuration for the WebLogic domain.
    weblogic-operator-56654bcdb7-qww7f                1/1     Running     0          25m
    ```
 
-   {{% notice tip %}} If Kubernetes advertises the WebLogic pod as `Running` you can be assured the WebLogic Server actually is running because the operator ensures that the Kubernetes health checks are actually polling the WebLogic health check mechanism.
-   {{% /notice %}}
+   {{< alert title="TIP" color="info" >}} If Kubernetes advertises the WebLogic pod as `Running` you can be assured the WebLogic Server actually is running because the operator ensures that the Kubernetes health checks are actually polling the WebLogic health check mechanism.
+   {{< /alert >}}
 
    Get the addresses of the Administration Server and Managed Servers (please wait for the external IP addresses to be assigned):
 
@@ -528,8 +528,8 @@ $ ./create-domain-on-aks.sh -i my-create-domain-on-aks-inputs.yaml -o ~/azure -e
 
 The script will print the Administration Server address after a successful deployment.  The default user name for the Administration Console is `weblogic` and the default password is `welcome1`.  Please change this for production deployments.  To interact with the cluster using `kubectl`, use `az aks get-credentials` as shown in the script output.
 
-{{% notice info %}} You now have created an AKS cluster with `PersistentVolumeClaim` and `PersistentVolume` to contain the WLS domain configuration files.  Using those artifacts, you have used the operator to create a WLS domain.
-{{% /notice %}}
+{{< alert title="INFO" color="info" >}} You now have created an AKS cluster with `PersistentVolumeClaim` and `PersistentVolume` to contain the WLS domain configuration files.  Using those artifacts, you have used the operator to create a WLS domain.
+{{< /alert >}}
 
 #### Deploy sample application
 

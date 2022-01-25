@@ -21,9 +21,9 @@ Note that this use case shows Model in Image's unique ability to quickly deploy 
 
 - Domain in Image requires that its images embed a WebLogic `security/SerializedSystemIni.dat` domain encryption key that cannot be changed for the image (see [Why layering matters]({{< relref "/userguide/cicd/why-layering-matters.md" >}}) in CI/CD considerations). This necessarily means that two Domain in Image domains that share the same image can decrypt each other's encrypted passwords. On the other hand, a Model in Image's domain encryption key is not embedded in the image and instead, is dynamically and uniquely created each time the domain is started.
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Oracle requires interoperating WebLogic domains to have different domain names. This is necessary when two domains communicate, or when a WebLogic Server or WebLogic Java client concurrently connects to multiple domains.
-{{% /notice %}}
+{{< /alert >}}
 
 Here are the steps for this use case:
 

@@ -85,8 +85,8 @@ For Domain in PV, the type of restart needed depends on the nature of the WebLog
 * Other non-dynamic domain configuration changes require either a manually initiated rolling restart or a full domain shut down and restart, depending on the nature of the change.
   * For example, a rolling restart is applicable when changing a WebLogic Server `stuck thread timer interval` property. See [Restart all the servers in the domain]({{< relref "/userguide/managing-domains/domain-lifecycle/startup/_index.md#restart-all-the-servers-in-the-domain" >}}).
 
-{{% notice note %}} The preceding description of the operator's life cycle of responding to WebLogic domain configuration changes applies to version 3.0.0 and later. Prior to operator version 3.0.0, while you could make changes to WebLogic domain configuration using the Administration Console or WLST, the operator would only detect and respond to those changes following a full domain shut down and restart.
-{{% /notice %}}
+{{< alert title="NOTE" color="primary" >}} The preceding description of the operator's life cycle of responding to WebLogic domain configuration changes applies to version 3.0.0 and later. Prior to operator version 3.0.0, while you could make changes to WebLogic domain configuration using the Administration Console or WLST, the operator would only detect and respond to those changes following a full domain shut down and restart.
+{{< /alert >}}
 
 #### Changing the domain configuration overrides
 
@@ -100,8 +100,8 @@ Changes to configuration overrides include:
 
 The changes to the above fields or contents of related resources are not processed automatically. Instead, these fields are processed only when you [initiate operator introspection]({{< relref "/userguide/managing-domains/domain-lifecycle/introspection.md" >}}). The operator then will apply the new configuration overrides dynamically or only apply the overrides when WebLogic Server instances restart, depending on the strategy that you select.
 
-{{% notice note %}} Changes to configuration overrides distributed to running WebLogic Server instances can only take effect if the corresponding WebLogic configuration MBean attribute is "dynamic". For instance, the Data Source "passwordEncrypted" attribute is dynamic while the "Url" attribute is non-dynamic.
-{{% /notice %}}
+{{< alert title="NOTE" color="primary" >}} Changes to configuration overrides distributed to running WebLogic Server instances can only take effect if the corresponding WebLogic configuration MBean attribute is "dynamic". For instance, the Data Source "passwordEncrypted" attribute is dynamic while the "Url" attribute is non-dynamic.
+{{< /alert >}}
 
 #### Changing the WebLogic Server credentials
 
@@ -124,9 +124,9 @@ $ kubectl edit domain <domain name> -n <domain namespace>
 
 The `edit` command opens a text editor which lets you edit the Domain in place.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Typically, it's better to edit the Domain YAML file directly; otherwise, if you scaled the domain, and you edit only the original `domain.yaml` file and reapply it, you could go back to your old replicas count.
-{{% /notice %}}
+{{< /alert >}}
 
 #### Applying WebLogic Server patches
 
@@ -174,11 +174,11 @@ b. For Domain in Image, it is important to keep your original domain home in you
 Using the same domain home-in-image image as a base, create a new image by copying (`COPY`
 command in a Dockerfile) the updated application deployment files or WebLogic Server patches into the image during the image build.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The key here is to make sure that you do not re-run WLST or WDT to create a new domain home even though it will
     have the same configuration. Creating a new domain will change the domain encryption secret and you won't be able to do a
     rolling restart.
-{{% /notice %}}
+{{< /alert >}}
 
 c. Deploy the new image to your container registry with the new name.
 

@@ -25,11 +25,11 @@ description: "Lets you run the operator, and WebLogic domains managed by the ope
 
 #### Overview
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 These instructions assume that you are using a Kubernetes cluster with
 [Istio](https://istio.io/latest/docs/setup/install/) installed and configured already.  The operator will not install
 Istio for you.
-{{% /notice %}}
+{{< /alert >}}
 
 Istio support lets you run the operator, and WebLogic domains managed by
 the operator, when Istio sidecar injection is enabled. You can use
@@ -448,10 +448,10 @@ in each WebLogic cluster configuration:
    <replication-channel>istiorepl</replication-channel>
 <cluster>
 ```
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The operator will not create a replication channel or
 alter a cluster's `replication-channel` configuration
 if such a channel is already configured for a WebLogic cluster.
 (This is unnecessary when the channel already exists.)
-{{% /notice %}}
+{{< /alert >}}
     

@@ -40,12 +40,12 @@ see [Altering namespaces for a running operator](#altering-namespaces-for-a-runn
 see [WebLogic domain management]({{<relref "/userguide/managing-operators/using-helm.md#weblogic-domain-management">}})
 and [Common Mistakes and Solutions]({{< relref "/userguide/managing-operators/common-mistakes.md" >}}).
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 There can be multiple operators in a Kubernetes cluster,
 and in that case,
 you must ensure that the namespaces managed by these operators do not overlap.
 _At most, a namespace can be managed by one operator._
-{{% /notice %}}
+{{< /alert >}}
 
 ### Choose a domain namespace selection strategy
 
@@ -236,12 +236,12 @@ weblogic-scripts-cm   14        12m
 For operators configured to select managed namespaces through the use of a label selector or regular expression,
 you simply need to create a namespace with the appropriate labels or with a name that matches the expression, respectively.
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 If your operator Helm `enableClusterRoleBinding` configuration value is `false`, then
 then a running operator will _not_ have privilege to manage the newly added namespace until you upgrade
 the operator's Helm release.
 See [Ensuring the operator has permission to manage a namespace](#ensuring-the-operator-has-permission-to-manage-a-namespace).
-{{% /notice %}}
+{{< /alert >}}
 
 ####  Delete a Kubernetes namespace from a running operator
 

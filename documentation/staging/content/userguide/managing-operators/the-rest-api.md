@@ -46,9 +46,9 @@ You can access most of the REST services using `GET`, for example:
 * To obtain a list of clusters in a domain, send a `GET` request to the URL `/operator/latest/domains/<domainUID>/clusters`
 
 All of the REST services require authentication.  Callers must pass in a valid token header and a CA certificate file.  In previous operator versions, the operator performed authentication and authorization checks using the Kubernetes token review and subject access review APIs, and then updated the Domain resource using the operator's privileges.  Now, by default, the operator will use the caller's bearer token to perform the underlying update to the Domain resource using the caller's privileges and thus delegating authentication and authorization checks directly to the Kubernetes API Server (see [REST interface configuration]({{< relref "/userguide/managing-operators/using-helm#rest-interface-configuration" >}})).  
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 When using the operator's REST services to scale up or down a WebLogic cluster, you may need to grant `patch` access to the user or service account associated with the caller's bearer token. This can be done with an RBAC ClusterRoleBinding between the user or service account and the ClusterRole that defines the permissions for the WebLogic `domains` resource.
-{{% /notice %}}
+{{< /alert >}}
 
 Callers should pass in the `Accept:/application/json` header.
 
@@ -103,12 +103,12 @@ that generates a self-signed certificate and private key for the operator extern
 The generated certificate and key are stored in a Kubernetes `tls secret` and the sample
 script outputs the corresponding configuration values in YAML format. These values can be added to your custom YAML configuration file, for use when the operator's Helm chart is installed.
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 The sample script should ***not*** be used in a production environment because
 typically a self-signed certificate for external communication is not considered safe.
 A certificate signed by a commercial certificate authority is more widely accepted and
 should contain valid host names, expiration dates, and key constraints.
-{{% /notice %}}
+{{< /alert >}}
 
 For more detailed information about the sample script and how to run it, see
 the [REST APIs]({{<relref "/samples/rest/_index.md#sample-to-create-certificate-and-key">}}).
@@ -149,9 +149,9 @@ cat curl.err
 cat curl.out | jq .
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 You can use the `-k` option to bypass the check to verify that the operator's certificate is trusted (instead of `curl --cacert`), but this is insecure.
-{{% /notice %}}
+{{< /alert >}}
 
 To use this script, pass in the Kubernetes server address and then the URL you want to call.   The script assumes `jq` is installed and uses it to format the response.  This can be removed if desired.  The script also prints out quite a bit of useful debugging information, in addition to the response.  Here is an example of the output of this script:
 

@@ -24,7 +24,7 @@ weight: 5
         --set "kubernetes.namespaces={traefik,sample-domain1-ns}"
     ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If you have reached this point while following the "Model in Image" sample, please
 stop here and return to the [sample instructions]({{< relref "/samples/domains/model-in-image/prerequisites#resume" >}}).
-{{% /notice %}}
+{{< /alert >}}

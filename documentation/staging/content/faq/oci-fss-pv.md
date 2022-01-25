@@ -18,7 +18,7 @@ handling, as demonstrated in the operator persistent volume sample, will require
 an update to properly initialize the file ownership on the persistent volume
 when the domain is initially created.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 File permission handling on persistent volumes can differ between
 cloud providers and even with the underlying storage handling on
 Linux based systems. These instructions provide one option to
@@ -26,7 +26,7 @@ update file ownership used by the standard Oracle images where
 UID `1000` and GID `1000` typically represent the `oracle` or `opc` user.
 For more information on persistent volume handling,
 see [Persistent storage]({{< relref "/userguide/managing-domains/persistent-storage/_index.md" >}}).
-{{% /notice %}}
+{{< /alert >}}
 
 
 #### Failure during domain creation with persistent volume sample

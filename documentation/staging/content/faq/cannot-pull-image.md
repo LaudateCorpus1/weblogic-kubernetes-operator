@@ -33,24 +33,24 @@ and the tag is `1.0`.  Tags are a lot like version numbers, but they are not req
 to be numbers or to be in any particular sequence or format.  If you omit the tag, it
 is assumed to be `latest`.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The tag `latest` is confusing - it does not actually mean the latest version of
 the image that was created or published in the registry; it just literally means
 whichever version the owner decided to call "latest".  Docker and Kubernetes make
 some assumptions about latest, and it is generally recommended to avoid using it and instead
 specify the actual version or tag that you really want.
-{{% /notice %}}
+{{< /alert >}}
 
 First, Kubernetes will check to see if the requested image is available in the local
 container image store on whichever worker node the pod was scheduled on.  If it is there,
 then it will use that image to start the container.  If it is not there, then Kubernetes
 will attempt to pull the image from a remote container registry.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 There is another setting called `imagePullPolicy` that can be used to force Kubernetes
 to always pull the image, even if it is already present in the local container image
 store.
-{{% /notice %}}
+{{< /alert >}}
 
 If the image is available in the remote registry and it is public, that is it does not
 require authentication, then Kubernetes will pull the image to the local container image
@@ -78,10 +78,10 @@ and `docker-email` are set to match the credentials you use to authenticate to t
 container registry; and the `namespace` must be set to the same namespace where you intend to
 use the image.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Some registries may need a suffix making the `docker-server` something like `some.registry.com/v2`
 for example.  You will need to check with your registry provider's documentation to determine if this is needed.
-{{% /notice %}}
+{{< /alert >}}
 
 After the secret is created, you need to tell Kubernetes to use it.  This is done by adding
 an `imagePullSecret` to your Kubernetes YAML file.  In the case of a WebLogic domain, you
@@ -120,11 +120,11 @@ $ kubectl patch serviceaccount default \
         -p '{"imagePullSecrets": [{"name": "secret1"}]}'
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 You can provide multiple `imagePullSecrets` if you need to pull container images from multiple
 remote container registries or if your images require different authentication credentials.
 For more information, see [Container Image Protection]({{<relref "/security/domain-security/image-protection#weblogic-domain-in-image-protection">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Pushing the image to a repository
 

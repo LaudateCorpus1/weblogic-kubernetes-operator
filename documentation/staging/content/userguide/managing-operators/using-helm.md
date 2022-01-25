@@ -417,9 +417,9 @@ dedicated: false
 
 In the `dedicated` mode, the operator does not require permissions to access the cluster-scoped Kubernetes resources, such as `CustomResourceDefinitions`, `PersistentVolumes`, and `Namespaces`. In those situations, the operator may skip some of its operations, such as verifying the WebLogic domain `CustomResoruceDefinition` `domains.weblogic.oracle` (and creating it when it is absent), watching namespace events, and cleaning up `PersistentVolumes` as part of deleting a domain.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 It is the responsibility of the administrator to make sure that the required `CustomResourceDefinition (CRD)` `domains.weblogic.oracle` is deployed in the Kubernetes cluster before the operator is installed. The creation of the `CRD` requires the Kubernetes `cluster-admin` privileges. A YAML file for creating the `CRD` can be found at [domain-crd.yaml](http://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/crd/domain-crd.yaml).
-{{% /notice %}}
+{{< /alert >}}
 
 ##### `domainPresenceFailureRetryMaxCount` and `domainPresenceFailureRetrySeconds`
 Specify the number of introspector job retries for a domain and the interval in seconds between these retries.
@@ -437,13 +437,13 @@ Specify the suffixes that the operator uses to form the name of the Kubernetes j
 
 Defaults to `-introspector` and `-ext` respectively. The values cannot be more than 25 and 10 characters respectively.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Prior to the operator 3.1.0 release, the suffixes are hard-coded to `-introspect-domain-job` and `-external`. The defaults are shortened in newer releases to support longer names in the domain resource and WebLogic domain configurations, such as the `domainUID`, and WebLogic cluster and server names.
-{{% /notice %}}
+{{< /alert >}}
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 In order to work with Kubernetes limits to resource names, the resultant names for the domain introspector job and the external service should not be more than 63 characters. For more details, see [Meet Kubernetes resource name restrictions]({{< relref "/userguide/managing-domains/_index.md#meet-kubernetes-resource-name-restrictions" >}}).
-{{% /notice %}}
+{{< /alert >}}
 
 ##### `clusterSizePaddingValidationEnabled`
 Specifies if the operator needs to reserve additional padding when validating the server service names to account for longer Managed Server names as a result of expanding a cluster's size in WebLogic domain configurations.
@@ -567,9 +567,9 @@ externalRestIdentitySecret: weblogic-operator-external-rest-identity
 ```
 
 ##### `externalOperatorCert` ***(Deprecated)***
-{{% notice info %}}
+{{< alert title="INFO" color="info" >}}
 Use **`externalRestIdentitySecret`** instead
-{{% /notice %}}
+{{< /alert >}}
 
 Specifies the user supplied certificate to use for the external operator REST HTTPS interface. The value must be a string containing a Base64 encoded PEM certificate. This parameter is required if `externalRestEnabled` is `true`, otherwise, it is ignored.
 
@@ -589,9 +589,9 @@ externalOperatorCert: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUQwakNDQXJxZ0F3S 
 ```
 
 ##### `externalOperatorKey` ***(Deprecated)***
-{{% notice info %}}
+{{< alert title="INFO" color="info" >}}
 Use **`externalRestIdentitySecret`** instead
-{{% /notice %}}
+{{< /alert >}}
 
 Specifies user supplied private key to use for the external operator REST HTTPS interface. The value must be a string containing a Base64 encoded PEM key. This parameter is required if `externalRestEnabled` is `true`, otherwise, it is ignored.
 

@@ -47,8 +47,8 @@ This sample demonstrates running the WebLogic cluster on AKS using two domain ho
     - No Docker environment required. You are able to run your business quickly without building knowledge of Docker.
     - Mutate the live domain configuration with Administration Console from a browser or WLST.
 
-{{% notice tip %}} Stop and Start an Azure Kubernetes Service (AKS) cluster using Azure CLI, as described [in the azure docs](https://docs.microsoft.com/en-us/azure/aks/start-stop-cluster). This allows you to optimize costs during your AKS cluster's idle time. Don't pay for running development clusters unless they are actively being used.  You can pick up objects and cluster state right where you were left off.
-{{% /notice %}}
+{{< alert title="TIP" color="info" >}} Stop and Start an Azure Kubernetes Service (AKS) cluster using Azure CLI, as described [in the azure docs](https://docs.microsoft.com/en-us/azure/aks/start-stop-cluster). This allows you to optimize costs during your AKS cluster's idle time. Don't pay for running development clusters unless they are actively being used.  You can pick up objects and cluster state right where you were left off.
+{{< /alert >}}
 
 ### References
 

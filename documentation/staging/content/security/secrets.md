@@ -19,10 +19,10 @@ The credentials for the WebLogic domain are kept in a Kubernetes `Secret` where 
 the secret is specified using `webLogicCredentialsSecret` in the WebLogic `Domain` resource.
 Also, the domain credentials secret must be created in the namespace where the `Domain` will be running.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 For an example of a WebLogic Domain YAML file using `webLogicCredentialsSecret`,
 see [Container Image Protection]({{<relref "/security/domain-security/image-protection#1-use-imagepullsecrets-with-the-domain-resource">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 The samples supplied with the operator use a naming convention that follows
 the pattern `<domainUID>-weblogic-credentials`, where `<domainUID>` is
@@ -40,13 +40,13 @@ $ kubectl -n domain1-ns label secret domain1-weblogic-credentials \
   weblogic.domainUID=domain1 weblogic.domainName=domain1
 ```
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 Oracle recommends that you not include unencrypted passwords on command lines.
 Passwords and other sensitive data can be prompted for or looked up by shell scripts or
 tooling. For more information about creating Kubernetes Secrets, see the Kubernetes
 [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/#creating-your-own-secrets)
 documentation.
-{{% /notice %}}
+{{< /alert >}}
 
 The operator's introspector job will expect the secret key names to be:
 
@@ -78,9 +78,9 @@ The WebLogic domain that the operator manages can have images that are protected
 in the registry. The `imagePullSecrets` setting on the `Domain` can be used to specify the
 Kubernetes `Secret` that holds the registry credentials.
 
-{{% notice info %}}
+{{< alert title="INFO" color="info" >}}
 For more information, see [Container Image Protection]({{<relref "/security/domain-security/image-protection#weblogic-domain-in-image-protection">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Domain configuration override or runtime update secrets
 
@@ -90,12 +90,12 @@ These Kubernetes Secrets can be created with any name in the
 namespace where a domain will be running. The Kubernetes Secret names are
 specified using `configuration.secrets` in the WebLogic `Domain` resource.
 
-{{% notice info %}}
+{{< alert title="INFO" color="info" >}}
 For more information, see
 [Configuration overrides]({{<relref "/userguide/managing-domains/configoverrides/_index.md#how-do-you-specify-overrides">}})
 and
 [Runtime updates]({{<relref "/userguide/managing-domains/model-in-image/runtime-updates.md">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Operator image pull secret
 
@@ -103,10 +103,10 @@ The Helm chart for installing the operator has an `imagePullSecrets` option to s
 image pull secret used for the operator's image when using a private registry;
 alternatively, the image pull secret can be specified on the operator's service account.
 
-{{% notice info %}}
+{{< alert title="INFO" color="info" >}}
 For more information, see
 [Customizing operator image name, pull secret, and private registry]({{<relref "/userguide/managing-operators/preparation#customizing-operator-image-name-pull-secret-and-private-registry">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Operator external REST interface secret
 
@@ -114,9 +114,9 @@ The operator can expose an external REST HTTPS interface which can be
 accessed from outside the Kubernetes cluster. A Kubernetes `tls secret`
 is used to hold the certificates and private key.
 
-{{% notice info %}}
+{{< alert title="INFO" color="info" >}}
 For more information, see [REST Certificates]({{<relref "/userguide/managing-operators/the-rest-certificates#additional-reading">}}) in the operator user guide.
-{{% /notice %}}
+{{< /alert >}}
 
 #### Operator internal REST interface secret
 

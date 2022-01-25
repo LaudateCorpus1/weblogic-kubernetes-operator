@@ -176,7 +176,7 @@ that call the resource are located within the cluster, then:
   to be individually addressable.
   If this is a requirement, then contact the WebLogic Kubernetes Operator team for potential solutions.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 All DNS addresses must be 'DNS-1123' compliant;
 this means that any DNS names created using the name of a service,
 pod, WebLogic Server, WebLogic cluster, and such,
@@ -186,7 +186,7 @@ and the domain UID is `MyUid`, then its listen
 address within the namespace will be `myuid-my-server`.
 For more information on Kubernetes resource compliant naming,
 please see [Meet Kubernetes resource name restrictions]({{< relref "/userguide/managing-domains/_index.md#meet-kubernetes-resource-name-restrictions" >}}).
-{{% /notice %}}
+{{< /alert >}}
 
 
 #### Load balancer tunneling
@@ -383,9 +383,9 @@ A Kubernetes `NodePort` exposes a port on each worker node in the Kubernetes clu
 
 If an EJB or JMS service is running on an Administration Server, then you can skip the rest of this section and use the `spec.adminServer.adminService.channels` Domain field to have the operator create a `NodePort` for you. See [Reference - Domain]({{<relref "/reference/domain-resource/_index.md">}}). Otherwise, if the EJB or JMS service is running in a WebLogic cluster or standalone WebLogic Server Managed Server, and you desire to provide access to the service using a `NodePort`, then the `NodePort` must be exposed 'manually' - see the following sample and table.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Setting up a `NodePort` usually also requires setting up a custom network channel. See [Adding a WebLogic custom channel](#adding-a-weblogic-custom-channel).
-{{% /notice %}}
+{{< /alert >}}
 
 ##### Sample `NodePort` resource
 
@@ -504,9 +504,9 @@ cd('/ServerTemplates/%s' % templateName)
 set('ExternalDNSName', externalDNSName)
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The server name contains the server template macro "${id}" in which the correct instance ID will be substituted by the WebLogic Server runtime.  See [Using Macros](https://docs.oracle.com/en/middleware/fusion-middleware/weblogic-server/12.2.1.4/domcf/server_templates.html#GUID-EA003F89-C8E4-4CE1-81DF-6FF25F92D21B) in _Server Templates_.
-{{% /notice %}}
+{{< /alert >}}
 
 Here is a snippet of WDT model YAML file configuration to set the `ExternalDNSName` attribute for both a standalone server and for a server template:
 
@@ -531,13 +531,13 @@ topology:
           ExternalDNSName: '@@ENV:DOMAIN_UID@@-managed-server${id}.@@ENV:NAMESPACE@@'
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 In the previous example, `DOMAIN_UID` and `NAMESPACE` are assumed to already be 'DNS-1123' compliant.
 Alternatively, you can substitute the macros with DNS-1123 acceptable values
 (changed to lowercase and underscores converted to dashes).
 For more information on Kubernetes resource compliant naming,
 please see [Meet Kubernetes resource name restrictions]({{< relref "/userguide/managing-domains/_index.md#meet-kubernetes-resource-name-restrictions" >}}).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Security notes
 

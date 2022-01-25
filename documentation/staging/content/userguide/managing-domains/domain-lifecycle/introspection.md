@@ -78,10 +78,10 @@ The introspection will be periodically retried and then will eventually timeout 
 
 Please review the details for diagnosing introspection failures related to [configuration overrides]({{<relref "/userguide/managing-domains/configoverrides/_index.md#debugging">}}) or [Model in Image domain home generation]({{<relref "/userguide/managing-domains/model-in-image/debugging.md">}}).
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 The introspector log is mirrored to the Domain resource `spec.logHome` directory
 when `spec.logHome` is configured and `spec.logHomeEnabled` is true.
-{{% /notice %}}
+{{< /alert >}}
 
 ### Introspection use cases
 
@@ -132,8 +132,8 @@ The default value for `overrideDistributionStrategy` is DYNAMIC, which means tha
 
 Alternately, you can set `overrideDistributionStrategy` to ON_RESTART, which means that the new configuration overrides will not be distributed to already running WebLogic Server instances, but will instead be applied only to servers as they start or restart. Use of this value will *not* cause WebLogic Server instances to restart absent changes to other fields, such as `restartVersion`.
 
-{{% notice note %}} Changes to configuration overrides distributed to running WebLogic Server instances can only take effect if the corresponding WebLogic configuration MBean attribute is "dynamic". For instance, the Data Source "passwordEncrypted" attribute is dynamic while the "Url" attribute is non-dynamic.
-{{% /notice %}}
+{{< alert title="NOTE" color="primary" >}} Changes to configuration overrides distributed to running WebLogic Server instances can only take effect if the corresponding WebLogic configuration MBean attribute is "dynamic". For instance, the Data Source "passwordEncrypted" attribute is dynamic while the "Url" attribute is non-dynamic.
+{{< /alert >}}
 
 #### Distributing changes to running Model in Image domains
 

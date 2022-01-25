@@ -37,9 +37,9 @@ as described in [Create a custom image with your domain inside the image](#creat
 
 #### Set up secrets to access the Oracle Container Registry
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 This version of the operator requires WebLogic Server 12.2.1.3.0 plus patch 29135930; the standard image, `container-registry.oracle.com/middleware/weblogic:12.2.1.3`, already includes this patch pre-applied. Images for WebLogic Server 12.2.1.4.0 do not require any patches.
-{{% /notice %}}  
+{{< /alert >}}  
 
 In order for Kubernetes to obtain the WebLogic Server image from the Oracle Container Registry (OCR), which requires authentication, a Kubernetes Secret containing the registry credentials must be created. To create a secret with the OCR credentials, issue the following command:
 
@@ -147,13 +147,13 @@ with the mandatory patches installed as this base image.  This image could be ei
 the standard `container-registry.oracle.com/middleware/weblogic:12.2.1.3` pre-patched image or an image you created using the instructions above.
 WebLogic Server 12.2.1.4.0 images do not require patches.
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Oracle strongly recommends storing a domain image as private in the registry.
 A container image that contains a WebLogic domain home has sensitive information
 including keys and credentials that are used to access external resources
 (for example, the data source password). For more information, see
 [WebLogic domain in container image protection]({{<relref "/security/domain-security/image-protection#weblogic-domain-in-image-protection">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Patch WebLogic Server images
 

@@ -193,8 +193,8 @@ For more information see:
 
 #### Requirements for JRF domain types
 
-{{% notice info %}} This section applies only for a `JRF` domain type. Skip it if your domain type is `WLS` or `RestrictedJRF`.
-{{% /notice %}}
+{{< alert title="INFO" color="info" >}} This section applies only for a `JRF` domain type. Skip it if your domain type is `WLS` or `RestrictedJRF`.
+{{< /alert >}}
 
 A JRF domain requires an infrastructure database, initializing this database using RCU, and configuring your domain to access this database. All of these steps must occur before you first deploy your domain. When you first deploy your domain, the introspector job will initialize it's OPSS schema tables in the database - a process that can take several minutes.
 
@@ -242,9 +242,9 @@ For a domain that has been started by Model in Image, the operator will copy the
 
   Alternatively, you can use the `./kubernetes/samples/scripts/create-weblogic-domain/model-in-image/utils/opss-wallet.sh -s` command to export the wallet file (pass `-?` to this script's command-line arguments and defaults).
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 Always back up your wallet file to a safe location that can be retrieved later. In addition, save your OPSS key password.
-{{% /notice %}}
+{{< /alert >}}
 
 To reuse the wallet:
   - Create a secret with a key named `walletPassword` that contains the same OPSS password that you specified in the original domain. For example, assuming the password is `welcome1`:

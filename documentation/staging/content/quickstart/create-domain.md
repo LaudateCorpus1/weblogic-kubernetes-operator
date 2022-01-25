@@ -26,7 +26,7 @@ weight: 6
 
     The script's behavior is controlled by an inputs file plus command-line options. The script downloads the [WebLogic Image Tool](https://oracle.github.io/weblogic-image-tool/) and [WebLogic Deploy Tool](https://oracle.github.io/weblogic-deploy-tooling/) and uses these tools to create a new image with a domain home. The script also creates a domain resource YAML file that references the image, and, if the `-e` option is specified, deploys the domain resource to Kubernetes. For a detailed understanding of the steps that the `create-domain.sh` script performs for you, see the bulleted items under [Use the script to create a domain]({{< relref "/samples/domains/domain-home-in-image/#use-the-script-to-create-a-domain" >}})
 
-    {{% notice note %}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
+    {{< alert title="NOTE" color="primary" >}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
     {{% /notice%}}
 
     First, copy the sample [create-domain-inputs.yaml](http://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/samples/scripts/create-weblogic-domain/domain-home-in-image/create-domain-inputs.yaml) file and update your copy with:  
@@ -47,9 +47,9 @@ weight: 6
     ```shell
     $ ./create-domain.sh -i my-inputs.yaml -o /<your output directory> -u <username> -p <password> -e
     ```
-    {{% notice note %}}You need to provide the same WebLogic domain administrator user name and password in the `-u` and `-p` options
+    {{< alert title="NOTE" color="primary" >}}You need to provide the same WebLogic domain administrator user name and password in the `-u` and `-p` options
     respectively, as you provided when creating the Kubernetes Secret in Step 2.
-    {{% /notice %}}
+    {{< /alert >}}
 
     For the detailed steps that the `create-domain.sh` script performs, see [Domain Home In Image]({{< relref "/samples/domains/domain-home-in-image/_index.md" >}}).
 
@@ -106,8 +106,8 @@ weight: 6
     < Vary: Accept-Encoding
     <   Connection #0 to host localhost left intact
     ```
-    {{% notice note %}} Depending on where your Kubernetes cluster is running, you may need to open firewall ports or update security lists to allow ingress to this port.
-    {{% /notice %}}
+    {{< alert title="NOTE" color="primary" >}} Depending on where your Kubernetes cluster is running, you may need to open firewall ports or update security lists to allow ingress to this port.
+    {{< /alert >}}
 
 
 1.	To access the WebLogic Server Administration Console:
@@ -116,5 +116,5 @@ weight: 6
 
     b. Open a browser to `http://localhost:30701`.
 
-    {{% notice note %}} Do not use the WebLogic Server Administration Console to start or stop servers. See [Starting and stopping servers]({{< relref "/userguide/managing-domains/domain-lifecycle/startup#starting-and-stopping-servers" >}}).
-    {{% /notice %}}
+    {{< alert title="NOTE" color="primary" >}} Do not use the WebLogic Server Administration Console to start or stop servers. See [Starting and stopping servers]({{< relref "/userguide/managing-domains/domain-lifecycle/startup#starting-and-stopping-servers" >}}).
+    {{< /alert >}}

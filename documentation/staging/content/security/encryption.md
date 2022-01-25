@@ -23,18 +23,18 @@ WebLogic domain is kept in a Kubernetes `Secret` which follows the naming patter
 `<domainUID>-weblogic-credentials`, where `<domainUID>` is
 the unique identifier of the domain, for example, `mydomain-weblogic-credentials`.
 
-{{% notice info %}}
+{{< alert title="INFO" color="info" >}}
 For more information about the WebLogic credentials secret, see [Secrets]({{<relref "/security/secrets.md">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Encryption of Kubernetes Secrets
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 To better protect your credentials and private keys, the Kubernetes cluster should be set up with encryption.
 Please see the Kubernetes documentation about
 [encryption at rest for secret data](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
 and [using a KMS provider for data encryption](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/).
-{{% /notice %}}
+{{< /alert >}}
 
 #### Additional reading
 * [Encryption of values for WebLogic configuration overrides]({{<relref "/userguide/managing-domains/configoverrides/_index.md#override-template-macros">}})

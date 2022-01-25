@@ -26,10 +26,10 @@ A Kubernetes cluster can host multiple operators, but no more than one per names
 
 ### Install the operator
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Before installing the operator, ensure that each of its prerequisite requirements is met.
 See [Prepare for installation]({{<relref "/userguide/managing-operators/preparation.md">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 To install the operator, first ensure that each of its prerequisite requirements is met,
 see [Prepare for installation]({{<relref "/userguide/managing-operators/preparation.md">}}),
@@ -175,11 +175,11 @@ You can upgrade a 2.6 or 3.x operator while the operator's domain resources are 
 
 #### Upgrading a 2.6 operator to a 3.x operator
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Because operator 3.0.0 introduces _non-backward compatible_ changes, you cannot use `helm upgrade` to upgrade
 a 2.6.0 operator to a 3.x operator. Instead, you must delete the 2.6.0 operator and then install the
 3.x operator.
-{{% /notice %}}
+{{< /alert >}}
 
 The deletion of the 2.6.0 operator will _not affect_ the Domain CustomResourceDefinition (CRD) and will _not stop_ any
 WebLogic Server instances already running.
@@ -226,13 +226,13 @@ during the upgrade.
 
 ### Uninstall the operator
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If you uninstall an operator, then any domains that it is managing will continue running;
 however, any changes to a domain resource that was managed by the operator
 will not be be detected or automatically handled, and, if you
 want to clean up such a domain, then you will need to manually delete
 all of the domain's resources (domain, pods, services, and such).
-{{% /notice %}}
+{{< /alert >}}
 
 The `helm uninstall` command is used to remove an operator release
 and its associated resources from the Kubernetes cluster.
@@ -247,10 +247,10 @@ and the operator namespace is `sample-weblogic-operator-ns`:
 $ helm uninstall sample-weblogic-operator -n sample-weblogic-operator-ns
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If the operator's namespace or service account did not exist before the Helm chart was installed,
 then Helm will create them during `helm install`; however, `helm uninstall` will not remove them.
-{{% /notice %}}
+{{< /alert >}}
 
 After removing the operator deployment,
 you should also remove the Domain custom resource definition (CRD) if it is no longer needed:

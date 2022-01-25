@@ -37,12 +37,12 @@ then see [enabling WLST access when local and remote ports do not match](#enabli
 1. Use the WebLogic Server Administration Console, the Remote Console, or WLST with the port forwarding command's local address.
 1. Finally, [terminate port forwarding](#terminating-port-forwarding).
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Externally exposing administrative, RMI, or T3 capable WebLogic channels
 using a Kubernetes `NodePort`, load balancer,
 port forwarding, or a similar method can create an insecure configuration.
 For more information, see [External network access security]({{<relref "/security/domain-security/weblogic-channels.md">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 ### Set up Administration Server network channels for port forward access
 
@@ -82,10 +82,10 @@ This behavior depends on your version and domain resource configuration:
   * Enable `HTTP` protocol for this network channel.
   * Do _NOT_ set an `external listen address` or `external listen port`.
   
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 For Istio-enabled domains running Istio versions prior to 1.10, if console only access is required, 
 then it is not necessary to add an additional network channel to the WebLogic Administration Server.
-{{% /notice %}}
+{{< /alert >}}
   
 For example, here is a snippet of a WebLogic domain `config.xml` file for channel `PortForward` for the Administration Server.
 ```xml
@@ -115,11 +115,11 @@ topology:
                     HttpEnabledForThisProtocol: true
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If your domain is already running, and you have made configuration changes,
 then you will need to rerun its introspector job and ensure that the admin pod
 restarts for the configuration changes to take effect.
-{{% /notice %}}
+{{< /alert >}}
 
 If Istio is _not_ enabled on the domain or for Istio enabled domains running
 Istio 1.10 and later, when administration channel port forwarding is enabled,
@@ -249,11 +249,11 @@ For domain security considerations, see [External network access security]({{< r
 
 - _Specifying a custom local IP address for port forwarding_:
 
-  {{% notice tip %}}
+  {{< alert title="TIP" color="info" >}}
   Specifying a custom local IP address for port forwarding allows
   you to run WLST or your browser on a different machine
   than the port forward command.
-  {{% /notice %}}
+  {{< /alert >}}
 
   You can use the `--address` option of the `kubectl port-forward` command
   to listen on specific IP addresses instead of, or in addition to, `localhost`.

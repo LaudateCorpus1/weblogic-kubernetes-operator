@@ -34,10 +34,10 @@ $ create-weblogic-credentials.sh
 
 #### Use the script to create a domain
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The `create-domain.sh` script generates a new container image on each run with a new domain home and a different internal `domain secret` in it.  To prevent having disparate images with different domain secrets in the same domain, we strongly recommend that a new domain uses a `domainUID` that is different from any of the active domains, or that you delete the existing Domain using the following command and wait until all the WebLogic Server instance Pods are terminated before you create a Domain with the same `domainUID`:
 `$ kubectl delete domain [domainUID] -n [domainNamespace]`
-{{% /notice %}}
+{{< /alert >}}
 
 The sample for creating domains is in this directory:
 
@@ -56,7 +56,7 @@ $ ./create-domain.sh \
   -i create-domain-inputs.yaml \
   -o /<path to output-directory>
 ```
-{{% notice note %}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
+{{< alert title="NOTE" color="primary" >}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
 {{% /notice%}}
 
 The script will perform the following steps:
@@ -97,14 +97,14 @@ The script will perform the following steps:
 
 * The generated image is tagged with the `image` parameter provided in your inputs file.
 
-  {{% notice warning %}}
+  {{< alert title="WARNING" color="warning" >}}
   Oracle strongly recommends storing the image containing the domain home as private
   in the registry (for example, Oracle Cloud Infrastructure Registry, GitHub Container Registry, and such) because
   this image contains sensitive information about the domain, including keys and
   credentials that are used to access external resources (for example, the data source password).
   For more information, see
   [WebLogic domain in image protection]({{<relref "/security/domain-security/image-protection#weblogic-domain-in-image-protection">}}).
-  {{% /notice %}}
+  {{< /alert >}}
 * Create a Kubernetes domain resource YAML file, `domain.yaml`, in the directory that is created above. This YAML file can be used to create the Kubernetes resource using the `kubectl create -f` or `kubectl apply -f` command.
 ```shell
 $ kubectl apply -f /<path to output-directory>/weblogic-domains/<domainUID>/domain.yaml
@@ -145,10 +145,10 @@ If you run the sample from a machine that is remote to the Kubernetes cluster, a
 
 * Set the `image` property in the inputs file to the target image name (including the registry hostname, port, and the tag, if needed).
 * If you want Kubernetes to pull the image from a private registry, create a Kubernetes Secret to hold your credentials and set the `imagePullSecretName` property in the inputs file to the name of the secret.
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 The Kubernetes Secret must be in the same namespace where the domain will be running.
 For more information, see [WebLogic domain in image protection]({{<relref "/security/domain-security/image-protection#weblogic-domain-in-image-protection">}}).
-{{% /notice %}}
+{{< /alert >}}
 * Run the `create-domain.sh` script without the `-e` option.
 * Push the `image` to the target registry.
 * Run the following command to create the domain:

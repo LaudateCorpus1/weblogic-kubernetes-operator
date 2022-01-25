@@ -24,7 +24,7 @@ look for the `serviceAccount` value using the Helm command:
 $ helm get values --all weblogic-operator
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If the operator's service account cannot have the privileges to access the cluster-level resources,
 such as `CustomResourceDefinitions`, `Namespaces`, and `PersistentVolumes`,
 then consider using the same dedicated namespace for each operator
@@ -32,7 +32,7 @@ and the domains that each operator manages.
 See the `Dedicated` option for the
 [domainNamespaceSelectionStrategy]({{< relref "/userguide/managing-operators/using-helm#domainnamespaceselectionstrategy" >}})
 setting.
-{{% /notice %}}
+{{< /alert >}}
 
 ### Additional reading
 

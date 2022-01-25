@@ -135,8 +135,8 @@ you must use a shared file system to store the WebLogic domain configuration, wh
 Oracle recommends that you use the Oracle Cloud Infrastructure File Storage Service (or equivalent on other cloud providers).
 Alternatively, you may install an NFS server on one node and share the file system across all the nodes.
 
-{{% notice note %}} Currently, we recommend that you use NFS version 3.0 for running WebLogic Server on OCI Container Engine for Kubernetes. During certification, we found that when using NFS 4.0, the servers in the WebLogic domain went into a failed state intermittently. Because multiple threads use NFS (default store, diagnostics store, Node Manager, logging, and domain_home), there are issues when accessing the file store. These issues are removed by changing the NFS to version 3.0.
-{{% /notice %}}
+{{< alert title="NOTE" color="primary" >}} Currently, we recommend that you use NFS version 3.0 for running WebLogic Server on OCI Container Engine for Kubernetes. During certification, we found that when using NFS 4.0, the servers in the WebLogic domain went into a failed state intermittently. Because multiple threads use NFS (default store, diagnostics store, Node Manager, logging, and domain_home), there are issues when accessing the file store. These issues are removed by changing the NFS to version 3.0.
+{{< /alert >}}
 
 ```shell
 $ terraform output worker_public_ips
@@ -184,8 +184,8 @@ For example, on Oracle Linux servers outside a cloud.
 
 These instructions are for Oracle Linux 7u2+.  If you are using a different flavor of Linux, you will need to adjust them accordingly.
 
-{{% notice note %}} These steps must be run with the `root` user, until specified otherwise!  Any time you see `YOUR_USERID` in a command, you should replace it with your actual `userid`.
-{{% /notice %}}
+{{< alert title="NOTE" color="primary" >}} These steps must be run with the `root` user, until specified otherwise!  Any time you see `YOUR_USERID` in a command, you should replace it with your actual `userid`.
+{{< /alert >}}
 
 1. Choose the directories where your Docker and Kubernetes files will be stored.  The Docker directory should be on a disk with a lot of free space (more than 100GB) because it will be used for the `/var/lib/docker` file system, which contains all of your images and containers. The Kubernetes directory will be used for the `/var/lib/kubelet` file system and persistent volume storage.
 
@@ -382,8 +382,8 @@ These instructions are for Oracle Linux 7u2+.  If you are using a different flav
     chmod 644 $KUBECONFIG
     ```
 
-    {{% notice note %}} The following steps should be run with your normal (non-`root`) user.
-    {{% /notice %}}
+    {{< alert title="NOTE" color="primary" >}} The following steps should be run with your normal (non-`root`) user.
+    {{< /alert >}}
 
 1. Configure CNI:
 
@@ -447,8 +447,8 @@ Docker for Mac 18+ provides an [embedded Kubernetes environment](https://docs.do
 
    {{< img "Enable Kubernetes setting" "images/docker-enable-k8s.png" >}}
 
-    {{% notice note %}} If you are behind an HTTP proxy, then you should also go to the "Proxies" tab and enter your proxy details.
-    {{% /notice %}}
+    {{< alert title="NOTE" color="primary" >}} If you are behind an HTTP proxy, then you should also go to the "Proxies" tab and enter your proxy details.
+    {{< /alert >}}
 
     Docker will download the Kubernetes components and start them up for you.  When it is done, you will see the Kubernetes status go to green/running in the menu:
 
@@ -517,5 +517,5 @@ Docker for Mac 18+ provides an [embedded Kubernetes environment](https://docs.do
     ```
 
     #### Important note about persistent volumes
-  {{% notice warning %}} Docker for Mac has some restrictions on where you can place a directory that can be used as a `HostPath` for a persistent volume.  To keep it simple, place your directory somewhere under `/Users`.
-  {{% /notice %}}
+  {{< alert title="WARNING" color="warning" >}} Docker for Mac has some restrictions on where you can place a directory that can be used as a `HostPath` for a persistent volume.  To keep it simple, place your directory somewhere under `/Users`.
+  {{< /alert >}}

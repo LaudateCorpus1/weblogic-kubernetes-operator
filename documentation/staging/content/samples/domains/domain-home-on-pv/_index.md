@@ -20,9 +20,9 @@ The following prerequisites must be met prior to running the create domain scrip
 * In the same Kubernetes Namespace, create the Kubernetes PersistentVolume (PV) where the domain home will be hosted, and the Kubernetes PersistentVolumeClaim (PVC) for the domain. For samples to create a PV and PVC, see [Create sample PV and PVC]({{< relref "/samples/storage/_index.md" >}}). By default, the `create-domain.sh` script creates a domain with the `domainUID` set to `domain1` and expects the PVC `domain1-weblogic-sample-pvc` to be present. You can create `domain1-weblogic-sample-pvc` using [create-pv-pvc.sh](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/kubernetes/samples/scripts/create-weblogic-domain-pv-pvc/create-pv-pvc.sh) with an inputs file that has the `domainUID` set to `domain1`.
 * Create the Kubernetes Secrets `username` and `password` of the administrative account in the same Kubernetes Namespace as the domain.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Please note the following important considerations about using persistent storage.
-{{% /notice %}}
+{{< /alert >}}
 
 There are a number of different Kubernetes storage providers that can be used to create persistent
 volumes.  Depending on which variant and version of Kubernetes you are using, there will be different
@@ -51,7 +51,7 @@ $ ./create-domain.sh \
   -i create-domain-inputs.yaml \
   -o /<path to output-directory>
 ```
-{{% notice note %}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
+{{< alert title="NOTE" color="primary" >}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
 {{% /notice%}}
 
 The script will perform the following steps:

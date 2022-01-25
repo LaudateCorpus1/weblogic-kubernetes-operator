@@ -55,18 +55,18 @@ $
 
 ### Use a `NodePort`
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 If you are setting up WLST access through a `NodePort` and your external port
 is not going to be the same as the port number on the WebLogic Administration Server Pod, then see
 [Enabling WLST access when local and remote ports do not match]({{< relref "/userguide/managing-domains/accessing-the-domain/port-forward#enabling-wlst-access-when-local-and-remote-ports-do-not-match" >}})
 for an additional required setup step.
-{{% /notice %}}
+{{< /alert >}}
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 A `NodePort` can expose a WebLogic T3 or administrative channel
 outside the Kubernetes cluster.
 For domain security considerations, see [External network access security]({{< relref "/security/domain-security/weblogic-channels.md" >}}).
-{{% /notice %}}
+{{< /alert >}}
 
 You can configure an Administration Server to expose an
 externally accessible `NodePort` using these two steps:
@@ -166,8 +166,8 @@ is to forward network traffic from a local port on your local machine
 to the administration port of an Administration Server Pod.
 See these [instructions]({{< relref "/userguide/managing-domains/accessing-the-domain/port-forward.md#forward-a-local-port-to-an-administration-port-on-the-administration-server-pod" >}}).
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Port forwarding can expose a WebLogic T3 or administrative channel
 outside the Kubernetes cluster.
 For domain security considerations, see [External network access security]({{< relref "/security/domain-security/weblogic-channels.md" >}}).
-{{% /notice %}}
+{{< /alert >}}

@@ -35,9 +35,9 @@ For more information, see [Domain events]({{< relref "/userguide/managing-domain
 
 If your introspector job failed, then examine the `kubectl describe` of the job and its pod, and also examine its log, if one exists.
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 To prevent the introspector job from retrying while you are debugging a failure, set the operator's Helm `domainPresenceFailureRetryMaxCount` parameter to `0`. For more information, see  [Manage operators -> Use the operator -> Use Helm]({{<relref "/userguide/managing-operators/using-helm">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 For example, assuming your domain UID is `sample-domain1` and your domain namespace is `sample-domain1-ns`:
 
@@ -83,14 +83,14 @@ For example, assuming your domain UID is `sample-domain1` and your domain namesp
         1. WLSDPLY-05007: Model file /u01/wdt/models/model1.yaml,/weblogic-operator/wdt-config-map/..2020_03_19_15_43_05.993607882/datasource.yaml contains an unrecognized section: TYPOresources. The recognized sections are domainInfo, topology, resources, appDeployments, kubernetes
   ```
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 The introspector log is mirrored to the Domain resource `spec.logHome` directory
 when `spec.logHome` is configured and `spec.logHomeEnabled` is true.
-{{% /notice %}}
+{{< /alert >}}
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 If a model file error references a model file in your `spec.configuration.model.configMap`, then you can correct the error by redeploying the ConfigMap with a corrected model file and then initiating a domain restart or roll. Similarly, if a model file error references a model file in your model image, then you can correct the error by deploying a corrected image, modifying your Domain YAML file to reference the new image, and then initiating a domain restart or roll.
-{{% /notice %}}
+{{< /alert >}}
 
 ### Check the WebLogic Server pods
 

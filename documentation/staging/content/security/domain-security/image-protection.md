@@ -7,13 +7,13 @@ description: "WebLogic domain in image protection."
 
 #### WebLogic domain in image protection
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Oracle strongly recommends storing the container images that contain a
 WebLogic domain home as private in the container registry.
 In addition to any local registry, public container registries include
 [GItHub Container Registry](https://ghcr.io/) and the
 [Oracle Cloud Infrastructure Registry](https://cloud.oracle.com/containers/registry) (OCIR).
-{{% /notice %}}
+{{< /alert >}}
 
 The WebLogic domain home that is part of an image contains sensitive
 information about the domain including keys and credentials that are used to

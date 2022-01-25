@@ -87,10 +87,10 @@ $ curl -v -k -H X-Requested-By:MyClient -H Content-Type:application/json -H Acce
 
 If you omit the header, you'll get a `400 (bad request)` response. If you omit the Bearer Authentication header, then you'll get a `401 (Unauthorized)` response.  If the service account or user associated with the `Bearer` token does not have permission to `patch` the WebLogic domain resource, then you'll get a `403 (Forbidden)` response.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 To resolve a `403 (Forbidden)` response, when calling the operator's REST scaling API, you may need to add the `patch` request verb to the cluster role associated with the WebLogic `domains` resource.
 The example ClusterRole definition below grants `get`, `list`, `patch` and `update` access to the WebLogic `domains` resource
-{{% /notice %}}
+{{< /alert >}}
 
 ```yaml
 kind: ClusterRole
@@ -115,9 +115,9 @@ The internal REST endpoint is enabled by default and thus always available, wher
 is disabled by default and only exposed if explicitly configured.
 Detailed instructions for configuring the external REST endpoint are available [here]({{< relref "/userguide/managing-operators/the-rest-api#configure-the-operators-external-rest-https-interface" >}}).
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Regardless of which endpoint is being invoked, the URL format for scaling is the same.
-{{% /notice %}}
+{{< /alert >}}
 
 ##### What does the operator do in response to a scaling request?
 
@@ -179,9 +179,9 @@ The scalingAction.sh script accepts a number of customizable parameters:
 
 * `kubernetes_master` - Kubernetes master URL, default=https://kubernetes  
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Set this to `https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}` when invoking `scalingAction.sh` from the Administration Server pod.
-{{% /notice %}}
+{{< /alert >}}
 
 * `access_token` - Service Account Bearer token for authentication and authorization for access to REST Resources
 
@@ -212,9 +212,9 @@ A more in-depth description and example on using WLDF's Policies and Actions com
 The script `scalingAction.sh`, specified in the WLDF script action above, needs the appropriate RBAC permissions granted for the service account user (in the namespace in which the WebLogic domain is deployed) in order to query the Kubernetes API server for both configuration and runtime information of the Domain.
 The following is an example YAML file for creating the appropriate Kubernetes ClusterRole bindings:
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 In the example ClusterRoleBinding definition below, the WebLogic domain is deployed to a namespace `weblogic-domain`.  Replace the namespace value with the name of the namespace in which the WebLogic domain is deployed in your Kubernetes environment.
-{{% /notice %}}
+{{< /alert >}}
 
 ```yaml
 kind: ClusterRole

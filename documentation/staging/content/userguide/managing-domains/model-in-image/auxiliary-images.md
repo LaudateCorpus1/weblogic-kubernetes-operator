@@ -125,10 +125,10 @@ spec:
       volume: auxiliaryImageVolume1
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 If image pull secrets are required for pulling auxiliary images,
 then the secrets must be referenced using `domain.spec.imagePullSecrets`.
-{{% /notice %}}
+{{< /alert >}}
 
 #### Model in Image paths
 
@@ -148,12 +148,12 @@ respectively, and must be changed to specify a directory in
       wdtInstallHome: "/auxiliary/weblogic-deploy"
 ```
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 If multiple auxiliary images supply different versions of a WebLogic Deploy Tool installation
 to the same `wdtInstallHome` path, then it is recommended 
 to ensure that the newer version completely replaces the older version
 instead of merges with it. See [Performing replaces instead of merges](#performing-replaces-instead-of-merges).
-{{% /notice %}}
+{{< /alert >}}
 
 ### Merge order
 

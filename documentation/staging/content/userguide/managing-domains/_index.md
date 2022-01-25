@@ -26,14 +26,14 @@ Be aware of the following important considerations for WebLogic domains running 
   - If the Domain `domainHome` field is not specified and `domainHomeSourceType` is `PersistentVolume`, then the operator will assume that the domain home is `/shared/domains/DOMAIN_UID`.
   - Finally, if the Domain `domainHome` field is not specified and the `domainHomeSourceType` is `FromModel`, then the operator will assume that the domain home is `/u01/domains/DOMAIN_UID`.
 
-  {{% notice warning %}}
+  {{< alert title="WARNING" color="warning" >}}
   Oracle strongly recommends storing an image containing a WebLogic domain home (`domainHomeSourceType` is `Image`)
   as private in the registry (for example, Oracle Cloud Infrastructure Registry, GitHub Container Registry, and such).
   A container image that contains a WebLogic domain has sensitive information including
   keys and credentials that are used to access external resources (for example, the data source password).
   For more information, see
   [WebLogic domain in container image protection]({{<relref "/security/domain-security/image-protection#weblogic-domain-in-image-protection">}}).
-  {{% /notice %}}
+  {{< /alert >}}
 
 * _Log File Locations:_ The operator can automatically override WebLogic Server, domain, and introspector log locations.
   This occurs if the Domain `logHomeEnabled` field is explicitly set to `true`, or if `logHomeEnabled` isn't set
@@ -55,12 +55,12 @@ Be aware of the following important considerations for WebLogic domains running 
   unique port number across the entire Kubernetes cluster.  If you expose the administration port in each WebLogic domain in
   the Kubernetes cluster, then each one must have a different port number.  This is required because `NodePorts` are used to
   expose channels outside the Kubernetes cluster.  
-  {{% notice warning %}}
+  {{< alert title="WARNING" color="warning" >}}
   Exposing administrative, RMI, or T3 capable channels using a Kubernetes `NodePort`
   can create an insecure configuration. In general, only HTTP protocols should be made available externally and this exposure
   is usually accomplished by setting up an external load balancer that can access internal (non-`NodePort`) services.
   For more information, see [WebLogic T3 and administrative channels]({{<relref "/security/domain-security/weblogic-channels#weblogic-t3-and-administrative-channels">}}).
-  {{% /notice %}}
+  {{< /alert >}}
 
 * _Host Path Persistent Volumes:_ If using a `hostPath` persistent volume, then it must be available on all worker nodes in the cluster and have read/write/many permissions for all container/pods in the WebLogic Server deployment.  Be aware
   that many cloud provider's volume providers may not support volumes across availability zones.  You may want to use NFS or a clustered file system to work around this limitation.
@@ -209,7 +209,7 @@ and that end with the corresponding Log MBean attribute name.
 
   For example, you can include `-Dweblogic.log.FileMinSize=1000 -Dweblogic.log.FileCount=10 -Dweblogic.log.RotateLogOnStartup=true` in `domain.spec.serverPod.env.name.JAVA_OPTIONS` to set the behavior for all WebLogic Servers in your domain. For information about setting `JAVA_OPTIONS`, see [Domain resource]({{< relref "/userguide/managing-domains/domain-resource/_index.md#jvm-memory-and-java-option-environment-variables" >}}).
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Kubernetes stores pod logs on each of its nodes, and, depending on the Kubernetes implementation, extra steps may be necessary to limit their disk space usage.
 For more information, see [Kubernetes Logging Architecture](https://kubernetes.io/docs/concepts/cluster-administration/logging/).
-{{% /notice %}}
+{{< /alert >}}

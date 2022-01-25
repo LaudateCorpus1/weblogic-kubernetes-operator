@@ -115,13 +115,13 @@ An operator's settings are automatically maintained by Helm in a Kubernetes Conf
 
 ### Force the operator to restart
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 An operator is designed to robustly handle thousands of domains even in the event of failures,
 so it should not normally be necessary to force an operator to restart, even after an upgrade.
 Accordingly, if you encounter a problem that you think requires an operator restart to resolve,
 then please make sure that the operator development team is aware of the issue
 (see [Get Help]({{< relref "/userguide/introduction/get-help.md" >}})).
-{{% /notice %}}
+{{< /alert >}}
 
 When you restart an operator:
 
@@ -169,7 +169,7 @@ Here are two approaches for restarting an operator:
 
 ### Operator logging level
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 It should rarely be necessary to change the operator to use a finer-grained logging level,
 but, in rare situations, the operator support team may direct you to do so.
 If you change the logging level, then be aware that FINE or finer-grained logging levels
@@ -177,7 +177,7 @@ can be extremely verbose and quickly use up gigabytes of disk space in the span 
 at the finest levels, during heavy activity, in even minutes.
 _Consequently, the logging level should only be increased for as long as is needed
 to help get debugging data for a particular problem._
-{{% /notice %}}
+{{< /alert >}}
 
 To set the operator `javaLoggingLevel` to `FINE` (default is `INFO`)
 assuming the operator Helm release is named `sample-weblogic-operator`

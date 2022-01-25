@@ -52,7 +52,7 @@ $ ./create-domain.sh \
   -i create-domain-inputs.yaml \
   -o /<path to output-directory>
 ```
-{{% notice note %}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
+{{< alert title="NOTE" color="primary" >}} The `create-domain.sh` script and its inputs file are for demonstration purposes _only_; its contents and the domain resource file that it generates for you might change without notice. In production, we strongly recommend that you use the WebLogic Image Tool and WebLogic Deploy Tooling (when applicable), and directly work with domain resource files instead.
 {{% /notice%}}
 
 The script will perform the following steps:
@@ -95,14 +95,14 @@ The script will perform the following steps:
 
 * The generated image is tagged with the `image` parameter provided in your inputs file.
 
-  {{% notice warning %}}
+  {{< alert title="WARNING" color="warning" >}}
   Oracle strongly recommends storing the image containing the domain home as private
   in the registry (for example, Oracle Cloud Infrastructure Registry, GitHub Container Registry, and such) because
   this image contains sensitive information about the domain, including keys and
   credentials that are used to access external resources (for example, the data source password).
   For more information, see
   [WebLogic domain in image protection]({{<relref "/security/domain-security/image-protection#weblogic-domain-in-image-protection">}}).
-  {{% /notice %}}
+  {{< /alert >}}
 
 * Create a Kubernetes domain resource YAML file, `domain.yaml`, in the directory that is created above.
   This YAML file can be used to create the Kubernetes resource using the `kubectl create -f`

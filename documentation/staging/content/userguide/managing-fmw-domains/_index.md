@@ -151,11 +151,11 @@ same existing requirements apply.
 
 For testing and development, you may choose to run your database inside Kubernetes or outside of Kubernetes.
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 The Oracle Database images are only supported for non-production use.
 For more details, see My Oracle Support note:
 Oracle Support for Database Running on Docker (Doc ID 2216342.1)
-{{% /notice %}}
+{{< /alert >}}
 
 ##### Running the database inside Kubernetes
 
@@ -335,10 +335,10 @@ When you are finished with this pod, you can remove it with this command:
 $ kubectl delete pod rcu
 ```
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 You can use the same approach to get a temporary pod to run other utilities
 like WLST.
-{{% /notice %}}
+{{< /alert >}}
 
 ##### Creating schemas
 

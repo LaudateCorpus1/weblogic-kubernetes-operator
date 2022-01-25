@@ -9,7 +9,7 @@ pre = "<b> </b>"
 {{% children style="h4" description="true" %}}
 
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 Oracle strongly recommends that images containing WebLogic domains
 be kept in a private repository.
-{{% /notice %}}
+{{< /alert >}}

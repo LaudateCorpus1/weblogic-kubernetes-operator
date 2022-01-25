@@ -21,8 +21,8 @@ description = "Model file requirements, macros, and loading order."
 
 This document describes basic Model in Image model file syntax, naming, and macros. For additional information, see the [WebLogic Deploy Tool](https://oracle.github.io/weblogic-deploy-tooling/) documentation.
 
-{{% notice tip %}} The WDT [Discover Domain Tool](https://oracle.github.io/weblogic-deploy-tooling/userguide/tools/discover/) is particularly useful for generating model files from an existing domain home.
-{{% /notice %}}
+{{< alert title="TIP" color="info" >}} The WDT [Discover Domain Tool](https://oracle.github.io/weblogic-deploy-tooling/userguide/tools/discover/) is particularly useful for generating model files from an existing domain home.
+{{< /alert >}}
 
 ### Sample model file
 

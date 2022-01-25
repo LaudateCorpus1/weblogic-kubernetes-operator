@@ -67,18 +67,18 @@ References:
   plus preparing a namespace for operator management,
   see [Namespace management]({{<relref "/userguide/managing-operators/namespace-management.md">}}).
 
-{{% notice tip %}}
+{{< alert title="TIP" color="info" >}}
 For an example of installing the operator,
 setting the namespace that it monitors,
 deploying a domain resource to its monitored namespace,
 and uninstalling the operator,
 see the [Quick Start]({{< relref "/quickstart/_index.md" >}}).
-{{% /notice %}}
+{{< /alert >}}
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 There can be multiple operators in a Kubernetes cluster,
 and in that case, you must ensure that the namespaces managed by these operators do not overlap.
 _At most, a namespace can be managed by one operator._
 In addition, you cannot deploy more than operator to a particular namespace.
 See [Common Mistakes]({{<relref "/userguide/managing-operators/common-mistakes.md">}}).
-{{% /notice %}}
+{{< /alert >}}

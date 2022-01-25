@@ -23,12 +23,12 @@ IP addresses only, which are not reachable from outside the cluster.
 Instead, you can use an OCI load balancer to provide access
 to services running in OKE.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 It is also possible, if desirable, to have an OCI load balancer route
 traffic to an ingress controller running inside the Kubernetes cluster
 and have that ingress controller in turn route traffic to services in the
 cluster.
-{{% /notice %}}
+{{< /alert >}}
 
 
 #### Requesting an OCI load balancer

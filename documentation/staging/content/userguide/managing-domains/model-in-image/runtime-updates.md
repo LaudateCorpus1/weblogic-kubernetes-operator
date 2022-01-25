@@ -65,7 +65,7 @@ and
 
 _It is the administrator's responsibility to make the necessary changes to a domain resource in order to initiate the correct approach for an update._
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 Custom configuration overrides, which are WebLogic configuration overrides
 specified using a domain resource YAML file `configuration.overridesConfigMap`, as described in
 [Configuration overrides]({{< relref "/userguide/managing-domains/configoverrides/_index.md" >}}),
@@ -75,7 +75,7 @@ This should not be a concern because model file, secret, or model image updates 
 and more flexible than custom configuration override updates.
 Unlike configuration overrides, the syntax for a model file update exactly matches
 the syntax for specifying your model file originally.
-{{% /notice %}}
+{{< /alert >}}
 
 ### Supported updates
 
@@ -137,9 +137,9 @@ documented as [unsupported](#unsupported-updates) below:
 
 ### Unsupported updates
 
-{{% notice warning %}}
+{{< alert title="WARNING" color="warning" >}}
 It is important to avoid applying unsupported model updates to a running domain. An attempt to use an unsupported update may not always result in a clear error message, and the expected behavior may be undefined. If you need to make an unsupported update and no workaround is documented, then shut down your domain entirely before making the change. See [Full domain restarts]({{< relref "/userguide/managing-domains/domain-lifecycle/startup/_index.md#full-domain-restarts">}}).
-{{% /notice %}}
+{{< /alert >}}
 
 The following summarizes the types of runtime update configuration that are _not_ supported in this release of Model in Image unless a workaround or alternative is documented:
 
@@ -194,9 +194,9 @@ and a description of workarounds and alternatives when applicable:
    External access to JMX (MBean) or online WLST requires that the network access point internal port
    and external port match (external T3 or HTTP tunneling access to JMS, RMI, or EJBs don't require port matching).
 
-   {{% notice warning %}}
+   {{< alert title="WARNING" color="warning" >}}
    Due to security considerations, we strongly recommend that T3 or any RMI protocol should not be exposed outside the cluster.
-   {{% /notice %}}
+   {{< /alert >}}
 
  - Changing, adding, or removing server and domain log related settings in an MBean at runtime
    when the domain resource is configured to override the same MBeans using the `spec.logHome`,
@@ -271,14 +271,14 @@ For offline updates only, there are two additional options:
     Environment variables are specified in the domain resource YAML file `spec.serverPod.env`
     or `spec.serverPod.adminServer.env` attributes.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 It is advisable to defer the last two modification options, or similar domain resource YAML file changes to
 [fields that cause servers to be restarted]({{< relref "/userguide/managing-domains/domain-lifecycle/startup/_index.md#fields-that-cause-servers-to-be-restarted" >}}),
 until all of your other modifications are ready.
 This is because such changes automatically and immediately result in a rerun of your introspector job,
 and, if the job succeeds, then a roll of the domain,
 plus, an offline update, if there are any accompanying model changes.
-{{% /notice %}}
+{{< /alert >}}
 
 Model updates can include additions, changes, and deletions. For help generating model changes:
 
@@ -464,14 +464,14 @@ Valid values are `CommitUpdateOnly` (default), or `CommitUpdateAndRoll`:
     the domain will automatically restart (roll),
     and non-dynamic changes will take effect on each pod after the pod restarts.
 
-{{% notice note %}}
+{{< alert title="NOTE" color="primary" >}}
 When updating a domain with non-dynamic MBean changes with
 `domain.spec.configuration.model.onlineUpdate.onNonDynamicChanges=CommitUpdateOnly` (the default),
 the non-dynamic changes are not effective on a WebLogic pod until the pod is restarted.
 However, if you scale up a cluster or otherwise start any new servers in the domain,
 then the new servers will start with the new non-dynamic changes
 and the domain will then be running in an inconsistent state until its older servers are restarted.
-{{% /notice %}}
+{{< /alert >}}
 
 #### Online update handling of deletes
 
