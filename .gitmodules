@@ -1,0 +1,3 @@
+[submodule "documentation/staging/themes/docsy"]
+	path = documentation/staging/themes/docsy
+	url = https://github.com/google/docsy

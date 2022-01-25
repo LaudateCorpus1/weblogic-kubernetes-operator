@@ -6,7 +6,8 @@ languageCode = "en-us"
 title = "WebLogic Kubernetes Operator"
 
 # Change the default theme to be use when building the site with Hugo
-theme = "hugo-theme-learn"
+# theme = "hugo-theme-learn"
+theme = "docsy"
 
 publishDir = "docs"
 
