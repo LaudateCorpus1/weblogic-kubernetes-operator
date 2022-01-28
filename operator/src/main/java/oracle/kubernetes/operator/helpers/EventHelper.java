@@ -119,7 +119,11 @@ public class EventHelper {
     }
 
     private Step createCreateEventCall(CoreV1Event event) {
-      LOGGER.fine(MessageKeys.CREATING_EVENT, eventData.eventItem);
+      if (event.getReason().equals(DOMAIN_FAILED_EVENT)) {
+        LOGGER.info("XXX" + MessageKeys.CREATING_EVENT, eventData.eventItem);
+      } else {
+        LOGGER.fine(MessageKeys.CREATING_EVENT, eventData.eventItem);
+      }
       event.firstTimestamp(event.getLastTimestamp());
       return new CallBuilder()
           .createEventAsync(

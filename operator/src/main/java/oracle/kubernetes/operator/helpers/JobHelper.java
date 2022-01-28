@@ -24,6 +24,7 @@ import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1Pod;
 import io.kubernetes.client.openapi.models.V1PodList;
 import io.kubernetes.client.openapi.models.V1PodStatus;
+//import oracle.kubernetes.operator.DomainStatusUpdater;
 import oracle.kubernetes.operator.IntrospectorConfigMapConstants;
 import oracle.kubernetes.operator.JobWatcher;
 import oracle.kubernetes.operator.LabelConstants;
@@ -56,6 +57,7 @@ import static oracle.kubernetes.operator.LabelConstants.INTROSPECTION_DOMAIN_SPE
 import static oracle.kubernetes.operator.LabelConstants.INTROSPECTION_STATE_LABEL;
 import static oracle.kubernetes.operator.ProcessingConstants.DOMAIN_INTROSPECTOR_JOB;
 import static oracle.kubernetes.operator.ProcessingConstants.DOMAIN_INTROSPECT_REQUESTED;
+//import static oracle.kubernetes.operator.ProcessingConstants.INTROSPECTION_ERROR_MSG;
 import static oracle.kubernetes.operator.helpers.ConfigMapHelper.readExistingIntrospectorConfigMap;
 import static oracle.kubernetes.operator.logging.MessageKeys.INTROSPECTOR_JOB_FAILED;
 import static oracle.kubernetes.operator.logging.MessageKeys.INTROSPECTOR_JOB_FAILED_DETAIL;
@@ -398,14 +400,30 @@ public class JobHelper {
 
       @Override
       public NextAction apply(Packet packet) {
+        Step step = createIntrospectionFailureStepsIfNeeded(packet);
         logJobDeleted(getDomainUid(), getNamespace(), getJobName(), packet);
-        return doNext(new CallBuilder().withTimeoutSeconds(JOB_DELETE_TIMEOUT_SECONDS)
+        return doNext(Step.chain(step, createDeleteJobStep()), packet);
+      }
+
+      private Step createIntrospectionFailureStepsIfNeeded(Packet packet) {
+        V1Job domainIntrospectorJob = (V1Job) packet.get(DOMAIN_INTROSPECTOR_JOB);
+
+        if (domainIntrospectorJob != null
+            && !JobWatcher.isComplete(domainIntrospectorJob)) {
+          LOGGER.info("XXX createFailureSteps");
+          //return DomainStatusUpdater.createIntrospectionFailureSteps(INTROSPECTION_ERROR_MSG, domainIntrospectorJob);
+        }
+        return null;
+      }
+
+      private Step createDeleteJobStep() {
+        return new CallBuilder().withTimeoutSeconds(JOB_DELETE_TIMEOUT_SECONDS)
                 .deleteJobAsync(
                       getJobName(),
                         getNamespace(),
                         getDomainUid(),
                         new V1DeleteOptions().propagationPolicy("Foreground"),
-                        new DefaultResponseStep<>(getNext())), packet);
+                        new DefaultResponseStep<>(getNext()));
       }
     }
 
@@ -429,9 +447,9 @@ public class JobHelper {
         final V1Job domainIntrospectorJob = packet.getValue(DOMAIN_INTROSPECTOR_JOB);
         if (JobWatcher.isComplete(domainIntrospectorJob)) {
           return doNext(packet);
-        } else {
-          return handleFailure(packet, domainIntrospectorJob);
         }
+
+        return handleFailure(packet, domainIntrospectorJob);
       }
 
       private void processIntrospectionResult(Packet packet, String result) {
@@ -445,6 +463,7 @@ public class JobHelper {
       }
 
       private NextAction handleFailure(Packet packet, V1Job domainIntrospectorJob) {
+        LOGGER.info("XXX JobHelper handleFailure about to logIntrsopectorFailure");
         Optional.ofNullable(domainIntrospectorJob).ifPresent(job -> logIntrospectorFailure(packet, job));
 
         if (!severeStatuses.isEmpty()) {
@@ -705,6 +724,7 @@ public class JobHelper {
     packet.remove(ProcessingConstants.INTROSPECTOR_JOB_FAILURE_LOGGED);
     if (domainIntrospectorJob != null
             && !JobWatcher.isComplete(domainIntrospectorJob)) {
+      LOGGER.info("XXX logJobDeleted: logIntrospectorFailure");
       logIntrospectorFailure(packet, domainIntrospectorJob);
     }
     packet.remove(ProcessingConstants.JOB_POD_NAME);

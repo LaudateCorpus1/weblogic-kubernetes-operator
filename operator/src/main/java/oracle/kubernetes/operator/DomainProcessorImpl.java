@@ -1072,6 +1072,9 @@ public class DomainProcessorImpl implements DomainProcessor {
                 failureSteps = createAbortedFailureSteps();
               }
             }
+
+            LOGGER.info("XXX onThrowable failureSteps = {0}", failureSteps);
+
             gate.startFiberIfLastFiberMatches(
                 domainUid,
                 Fiber.getCurrentIfSet(),
