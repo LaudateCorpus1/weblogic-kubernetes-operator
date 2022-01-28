@@ -51,6 +51,7 @@ public interface ProcessingConstants {
   String FATAL_INTROSPECTOR_ERROR = "FatalIntrospectorError";
 
   String INTROSPECTION_ERROR = "Introspection Error: ";
+  String INTROSPECTION_ERROR_MSG = "Introspection job did not complete";
 
   String FATAL_INTROSPECTOR_ERROR_MSG = "Stop introspection retry - MII Fatal Error: ";
 

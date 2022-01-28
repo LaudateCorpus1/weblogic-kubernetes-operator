@@ -223,7 +223,7 @@ public class JobHelper {
         }
 
         if (isKnownFailedJob(job) || JobWatcher.isJobTimedOut(job)) {
-          return doNext(cleanUpAndReintrospect(getNext()), packet);
+          return doNext(cleanUpAndReintrospect(getNext(), packet), packet);
         } else if (job != null) {
           return doNext(processIntrospectionResults(getNext()), packet).withDebugComment(job, this::jobDescription);
         } else if (isIntrospectionNeeded(packet)) {
@@ -344,8 +344,22 @@ public class JobHelper {
       }
     }
 
-    private Step cleanUpAndReintrospect(Step next) {
-      return Step.chain(deleteIntrospectorJob(), createIntrospectionSteps(next));
+    private Step cleanUpAndReintrospect(Step next, Packet packet) {
+      return Step.chain(
+          createIntrospectionFailureStepsIfNeeded(packet),
+          deleteIntrospectorJob(),
+          createIntrospectionSteps(next));
+    }
+
+    private Step createIntrospectionFailureStepsIfNeeded(Packet packet) {
+      V1Job domainIntrospectorJob = (V1Job) packet.get(DOMAIN_INTROSPECTOR_JOB);
+
+      if (domainIntrospectorJob != null
+          && !JobWatcher.isComplete(domainIntrospectorJob)) {
+        LOGGER.info("XXX createFailureSteps");
+        //return DomainStatusUpdater.createIntrospectionFailureSteps(INTROSPECTION_ERROR_MSG, domainIntrospectorJob);
+      }
+      return null;
     }
 
     private Step createIntrospectionSteps(Step next) {
@@ -400,20 +414,8 @@ public class JobHelper {
 
       @Override
       public NextAction apply(Packet packet) {
-        Step step = createIntrospectionFailureStepsIfNeeded(packet);
         logJobDeleted(getDomainUid(), getNamespace(), getJobName(), packet);
-        return doNext(Step.chain(step, createDeleteJobStep()), packet);
-      }
-
-      private Step createIntrospectionFailureStepsIfNeeded(Packet packet) {
-        V1Job domainIntrospectorJob = (V1Job) packet.get(DOMAIN_INTROSPECTOR_JOB);
-
-        if (domainIntrospectorJob != null
-            && !JobWatcher.isComplete(domainIntrospectorJob)) {
-          LOGGER.info("XXX createFailureSteps");
-          //return DomainStatusUpdater.createIntrospectionFailureSteps(INTROSPECTION_ERROR_MSG, domainIntrospectorJob);
-        }
-        return null;
+        return doNext(createDeleteJobStep(), packet);
       }
 
       private Step createDeleteJobStep() {
@@ -638,7 +640,7 @@ public class JobHelper {
         if (jobPod == null) {
           return doContinueListOrNext(callResponse, packet, processIntrospectorPodLog(getNext()));
         } else if (hasImagePullError(jobPod) || initContainersHaveImagePullError(jobPod) || isJobPodTimedOut(jobPod)) {
-          return doNext(cleanUpAndReintrospect(getNext()), packet);
+          return doNext(cleanUpAndReintrospect(getNext(), packet), packet);
         } else {
           recordJobPodName(packet, getName(jobPod));
           return doNext(processIntrospectorPodLog(getNext()), packet);

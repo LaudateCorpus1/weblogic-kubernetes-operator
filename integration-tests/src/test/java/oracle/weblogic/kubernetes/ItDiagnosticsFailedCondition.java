@@ -505,7 +505,7 @@ class ItDiagnosticsFailedCondition {
     logger.info("Creating domain custom resource");
     Domain domain = createDomainResource(domainName, domainNamespace, adminSecretName,
         OCIR_SECRET_NAME, encryptionSecretName, replicaCount, image);
-    domain.getSpec().configuration().introspectorJobActiveDeadlineSeconds(5L);
+    domain.getSpec().configuration().introspectorJobActiveDeadlineSeconds(15L);
 
     try {
       logger.info("Creating domain");

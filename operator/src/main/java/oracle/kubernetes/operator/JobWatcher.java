@@ -134,6 +134,8 @@ public class JobWatcher extends Watcher<V1Job> implements WatchListener<V1Job>, 
         }
       }
     }
+    LOGGER.fine(
+        "XXX JobWatcher.isComplete status of job FALSE" + Objects.requireNonNull(job.getMetadata()).getName() + ": " + status);
     return false;
   }
 
