@@ -120,7 +120,7 @@ public class EventHelper {
 
     private Step createCreateEventCall(CoreV1Event event) {
       if (event.getReason().equals(DOMAIN_FAILED_EVENT)) {
-        LOGGER.info("XXX Creating event: {0}", eventData.eventItem);
+        LOGGER.info("XXX Creating event: {0}", eventData);
       } else {
         LOGGER.fine(MessageKeys.CREATING_EVENT, eventData.eventItem);
       }

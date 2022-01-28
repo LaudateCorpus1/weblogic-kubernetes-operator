@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import io.kubernetes.client.custom.V1Patch;
 import io.kubernetes.client.openapi.models.V1EnvVar;
@@ -505,7 +504,7 @@ class ItDiagnosticsFailedCondition {
     logger.info("Creating domain custom resource");
     Domain domain = createDomainResource(domainName, domainNamespace, adminSecretName,
         OCIR_SECRET_NAME, encryptionSecretName, replicaCount, image);
-    domain.getSpec().configuration().introspectorJobActiveDeadlineSeconds(15L);
+    domain.getSpec().configuration().introspectorJobActiveDeadlineSeconds(5L);
 
     try {
       logger.info("Creating domain");
@@ -794,8 +793,7 @@ class ItDiagnosticsFailedCondition {
   }
 
   private String getDomainName() {
-    Random random = new Random();
-    return domainUid + random.nextInt();
+    return domainUid + Math.random();
   }
 
 }
